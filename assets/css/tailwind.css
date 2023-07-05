@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-base: 255 251 255;
+    --color-primary: 16 59 65;
+    --color-accent: 164 38 0;
+    --color-success: 86 229 46;
+    --color-error: 138 18 18;
+  }
+
+  :root[class~="dark"] {
+    --color-base: 26 24 27;
+    --color-primary: 20 255 247;
+    --color-accent: 255 196 61;
+    --color-success: 86 229 46;
+    --color-error: 138 18 18;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-base;
+}
+
+@layer components {
+  .btn {
+    @apply bg-primary text-accent dark:bg-transparent dark:border-accent border-2 px-3 py-2 rounded text-sm cursor-pointer;
+  }
+
+  .card {
+    @apply p-3 rounded bg-primary dark:bg-transparent text-primary shadow-md h-full flex flex-col justify-around items-center;
+  }
+
+  .link {
+    @apply border-b-2 border-transparent hover:border-accent;
+  }
+}
