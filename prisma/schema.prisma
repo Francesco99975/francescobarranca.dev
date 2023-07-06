@@ -1,0 +1,101 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Admin {
+  id       String @id @default(cuid())
+  email    String @unique
+  username String @db.VarChar(12)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password Password?
+
+  @@map("admins")
+}
+
+model Password {
+  hash String
+
+  user   Admin  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  @@map("passwords")
+}
+
+model Skill {
+  id       String    @id @default(cuid())
+  name     String
+  platform Platform?
+  projects  Project[]
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  SkillsOnProjects ProjectsOnSkills?
+
+  @@map("skills")
+}
+
+model Platform {
+  id      String  @id @default(cuid())
+  name    String
+  subtype String?
+
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  skillId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("platforms")
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  commission  Boolean  @default(false)
+  featured    Boolean  @default(false)
+  skills      Skill[]
+  imageUrls   String[]
+
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  SkillsOnProjects ProjectsOnSkills?
+
+  @@map("projects")
+}
+
+model ProjectsOnSkills {
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  projectId  String   @unique
+  skill      Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  skillId    String   @unique
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([projectId, skillId])
+}
+
+model Commission {
+  id          String  @id @default(cuid())
+  subject     String
+  description String
+  theme       String
+  pages       Int
+  pwa         Boolean
+  static      Boolean
+  accepted    Boolean @default(false)
+  completed   Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("commissions")
+}

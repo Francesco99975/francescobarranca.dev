@@ -2,11 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default <Partial<Config>>{
   content: [
+    "./assets/**/*.{vue,js,css}",
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
+    "./nuxt.config.{js,ts}",
   ],
-
   darkMode: "class",
   theme: {
     extend: {
@@ -21,4 +22,8 @@ export default <Partial<Config>>{
       },
     },
   },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
 };

@@ -7,7 +7,15 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "nuxt-headlessui",
   ],
+  ignore: ["postgres"],
   colorMode: {
     classSuffix: "",
+  },
+  css: ["~/assets/css/tailwind.css"],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
   },
 });

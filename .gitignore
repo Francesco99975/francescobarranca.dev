@@ -17,8 +17,9 @@ logs
 .DS_Store
 .fleet
 .idea
+postgres
 
 # Local env files
-.env
+*.env
 .env.*
 !.env.example
