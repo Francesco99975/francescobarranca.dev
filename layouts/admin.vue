@@ -1,9 +1,7 @@
 <template>
   <div>
     <header>
-      <nav
-        class="relative container mx-auto p-4 flex justify-between items-center"
-      >
+      <nav class="container mx-auto p-4 flex justify-between items-center">
         <div class="flex flex-row justify-around p-2 items-center">
           <img
             src="~/assets/images/logo.webp"
@@ -11,26 +9,24 @@
             width="50"
             height="50"
           />
-          <NuxtLink class="font-bold text-accent text-xl md:text-3xl p-2" to="/"
-            >FMB.DEV</NuxtLink
+          <NuxtLink
+            class="font-bold text-accent text-xl md:text-3xl p-2"
+            to="/admin"
+            >.DEV</NuxtLink
           >
         </div>
-
         <ul class="hidden md:flex gap-4 text-primary text-sm md:text-xl">
           <li class="link">
-            <NuxtLink to="/">Home</NuxtLink>
+            <NuxtLink to="/admin">Dashboard</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/skills">Skills</NuxtLink>
+            <NuxtLink to="/admin/skills">Skills</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/projects">Projects</NuxtLink>
+            <NuxtLink to="/admin/projects">Projects</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/commissions">Commissions</NuxtLink>
-          </li>
-          <li class="link">
-            <NuxtLink to="/about">About</NuxtLink>
+            <NuxtLink to="/admin/commissions">Commissions</NuxtLink>
           </li>
         </ul>
 
@@ -60,19 +56,16 @@
           class="fixed top-0 right-0 z-10 flex-col bg-base p-4 rounded-sm shadow-lg mt-20 mr-2 space-y-4 md:hidden text-primary"
         >
           <li class="link">
-            <NuxtLink to="/">Home</NuxtLink>
+            <NuxtLink to="/admin">Dashboard</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/skills">Skills</NuxtLink>
+            <NuxtLink to="/admin/skills">Skills</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/projects">Projects</NuxtLink>
+            <NuxtLink to="/admin/projects">Projects</NuxtLink>
           </li>
           <li class="link">
-            <NuxtLink to="/commissions">Commissions</NuxtLink>
-          </li>
-          <li class="link">
-            <NuxtLink to="/about">About</NuxtLink>
+            <NuxtLink to="/admin/commissions">Commissions</NuxtLink>
           </li>
           <li>
             <ModeSwitch />
@@ -81,7 +74,7 @@
       </nav>
     </header>
 
-    <div class="p-4">
+    <div class="container mx-auto p-4">
       <slot />
     </div>
   </div>

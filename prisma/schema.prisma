@@ -8,9 +8,9 @@ generator client {
 }
 
 model Admin {
-  id       String @id @default(cuid())
-  email    String @unique
-  username String @db.VarChar(12)
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @db.VarChar(12) @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -21,7 +21,7 @@ model Admin {
 }
 
 model Password {
-  hash String
+  hash   String
 
   user   Admin  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
@@ -30,10 +30,10 @@ model Password {
 }
 
 model Skill {
-  id       String    @id @default(cuid())
-  name     String
-  platform Platform?
-  projects  Project[]
+  id               String            @id @default(cuid())
+  name             String
+  platform         Platform?
+  projects         Project[]
 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -43,12 +43,12 @@ model Skill {
 }
 
 model Platform {
-  id      String  @id @default(cuid())
-  name    String
-  subtype String?
+  id        String   @id @default(cuid())
+  name      String
+  subtype   String?
 
-  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  skillId String @unique
+  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  skillId   String   @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,13 +57,15 @@ model Platform {
 }
 
 model Project {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  commission  Boolean  @default(false)
-  featured    Boolean  @default(false)
-  skills      Skill[]
-  imageUrls   String[]
+  id               String            @id @default(cuid())
+  title            String
+  description      String
+  commission       Boolean           @default(false)
+  featured         Boolean           @default(false)
+  skills           Skill[]
+  imageUrls        String[]
+  sourceCodeUrl    String
+  downloadUrl      String
 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
@@ -84,18 +86,18 @@ model ProjectsOnSkills {
 }
 
 model Commission {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   subject     String
   description String
   theme       String
   pages       Int
   pwa         Boolean
   static      Boolean
-  accepted    Boolean @default(false)
-  completed   Boolean @default(false)
+  accepted    Boolean  @default(false)
+  completed   Boolean  @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("commissions")
 }
