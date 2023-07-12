@@ -1,7 +1,7 @@
-import { Result, failure, success } from "../../../interfaces/Result";
-import Admin from "../../../interfaces/admin";
-import { ServerError } from "../../../interfaces/serverError";
-import { prisma } from "../../db.server";
+import { Result, failure, success } from "../../interfaces/Result";
+import Admin from "../../interfaces/admin";
+import { ServerError } from "../../interfaces/serverError";
+import { prisma } from "../db.server";
 
 export async function getUsers(): Promise<Result<ServerError, Admin[]>> {
   try {

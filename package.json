@@ -12,9 +12,11 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@nuxtjs/web-vitals": "^0.2.6",
     "@prisma/client": "^4.16.2",
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-signature": "^1.1.0",
     "@types/node": "^18",
     "autoprefixer": "^10.4.14",
     "nuxt": "^3.6.1",
@@ -26,9 +28,10 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@types/cookie-signature": "^1.1.0",
     "bcryptjs": "^2.4.3",
     "cookie-signature": "^1.2.1",
+    "socket.io": "^4.7.1",
+    "socket.io-client": "^4.7.1",
     "tiny-invariant": "^1.3.1"
   },
   "prisma": {

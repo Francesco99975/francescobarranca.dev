@@ -1,7 +1,11 @@
 <template>
-  <div></div>
+  <div>Login</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// definePageMeta({
+//   layout: false,
+// });
+</script>
 
 <style scoped></style>

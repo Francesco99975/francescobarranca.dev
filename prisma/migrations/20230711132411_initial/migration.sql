@@ -16,6 +16,18 @@ CREATE TABLE "passwords" (
 );
 
 -- CreateTable
+CREATE TABLE "visits" (
+    "ip" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "views" INTEGER NOT NULL,
+    "duration" INTEGER NOT NULL,
+    "sauce" TEXT NOT NULL,
+    "agent" TEXT NOT NULL,
+
+    CONSTRAINT "visits_pkey" PRIMARY KEY ("ip")
+);
+
+-- CreateTable
 CREATE TABLE "skills" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -45,6 +57,8 @@ CREATE TABLE "projects" (
     "commission" BOOLEAN NOT NULL DEFAULT false,
     "featured" BOOLEAN NOT NULL DEFAULT false,
     "imageUrls" TEXT[],
+    "sourceCodeUrl" TEXT NOT NULL,
+    "downloadUrl" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -86,6 +100,9 @@ CREATE TABLE "_ProjectToSkill" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "admins_email_key" ON "admins"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "admins_username_key" ON "admins"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "passwords_userId_key" ON "passwords"("userId");

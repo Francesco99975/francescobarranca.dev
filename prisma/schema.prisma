@@ -29,6 +29,17 @@ model Password {
   @@map("passwords")
 }
 
+model Visit {
+  ip       String @id
+  date     DateTime @default(now())
+  views    Int
+  duration Int
+  sauce    String
+  agent    String
+
+  @@map("visits")
+}
+
 model Skill {
   id               String            @id @default(cuid())
   name             String

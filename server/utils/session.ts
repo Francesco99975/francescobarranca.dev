@@ -1,7 +1,7 @@
 import type { H3Event } from "h3";
 
 import * as cookieSignature from "cookie-signature";
-import { getUserById } from "../api/auth/index.get";
+import { getUserById } from "../modules/auth";
 
 export function serialize(obj: any) {
   const value = Buffer.from(JSON.stringify(obj), "utf-8").toString("base64");

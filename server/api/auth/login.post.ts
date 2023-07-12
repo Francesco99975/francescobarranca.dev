@@ -1,6 +1,6 @@
 import Admin from "../../../interfaces/admin";
+import { getUserByEmail } from "../../modules/auth";
 import { serialize, sign } from "../../utils/session";
-import { getUserByEmail } from "./index.get";
 import * as bcrypt from "bcryptjs";
 
 export default defineEventHandler(
