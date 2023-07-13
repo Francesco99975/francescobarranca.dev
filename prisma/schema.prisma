@@ -30,7 +30,8 @@ model Password {
 }
 
 model Visit {
-  ip       String @id
+  id       String @id
+  ip       String
   date     DateTime @default(now())
   views    Int
   duration Int

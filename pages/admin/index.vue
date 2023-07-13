@@ -11,7 +11,7 @@ import { Visit } from "@prisma/client";
 
 definePageMeta({
   layout: "admin",
-  middleware: ["admin-only"],
+  // middleware: ["admin-only"],
 });
 
 const state = reactive<{ visitors: Visit[]; online: number }>({
@@ -19,18 +19,21 @@ const state = reactive<{ visitors: Visit[]; online: number }>({
   online: 0,
 });
 
-// const { $io } = useNuxtApp();
+const { $io } = useNuxtApp();
 
-// onMounted(() => {
-//   if (!$io.connected) $io.connect();
-//   $io.emit("join");
-//   $io.on("collect", (message: { visitor: Visit }) => {
-//     state.visitors.push(message.visitor);
-//   });
-//   $io.on("visitors", (message: { current: number }) => {
-//     state.online = message.current;
-//   });
-// });
+onMounted(() => {
+  $io.emit("join");
+  $io.on("init", (message: { visitors: Visit[]; current: number }) => {
+    state.visitors = message.visitors;
+    state.online = message.current;
+  });
+  $io.on("collect", (message: { visitor: Visit }) => {
+    state.visitors.push(message.visitor);
+  });
+  $io.on("visitors", (message: { current: number }) => {
+    state.online = message.current;
+  });
+});
 </script>
 
 <style scoped></style>

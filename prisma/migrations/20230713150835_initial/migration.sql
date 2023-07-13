@@ -17,6 +17,7 @@ CREATE TABLE "passwords" (
 
 -- CreateTable
 CREATE TABLE "visits" (
+    "id" TEXT NOT NULL,
     "ip" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "views" INTEGER NOT NULL,
@@ -24,7 +25,7 @@ CREATE TABLE "visits" (
     "sauce" TEXT NOT NULL,
     "agent" TEXT NOT NULL,
 
-    CONSTRAINT "visits_pkey" PRIMARY KEY ("ip")
+    CONSTRAINT "visits_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
