@@ -13,10 +13,9 @@ export default defineNitroPlugin((nitroApp) => {
   });
 
   socketServer.on("connection", (socket) => {
-    console.log("connected");
-    socket.on("join", () => {
+    socket.on("join", async () => {
       socket.join("admin");
-      const all = prisma.visit.findMany();
+      const all = await prisma.visit.findMany();
       socketServer
         .to("admin")
         .emit("init", { current: visitors.length, visitors: all });
@@ -29,9 +28,9 @@ export default defineNitroPlugin((nitroApp) => {
         ip: socket.handshake.address,
         date: new Date(),
         duration: 0,
-        views: 1,
+        views: 0,
         agent: message.agent,
-        sauce: message.sauce,
+        sauce: message.sauce == "" ? "direct" : message.sauce,
       };
 
       visitors.push(visit);
@@ -74,7 +73,9 @@ export default defineNitroPlugin((nitroApp) => {
 
       await prisma.visit.create({ data: visitor });
 
-      socketServer.to("admin").emit("collect", { visitor });
+      socketServer
+        .to("admin")
+        .emit("collect", { current: visitors.length, visitor: visitor });
     });
   });
 });

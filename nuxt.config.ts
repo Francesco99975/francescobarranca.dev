@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     ), // 7 days
     public: {
       socketPort: 3001,
-      url: "http://localhost",
+      url: "http://192.168.0.38",
     },
   },
 });

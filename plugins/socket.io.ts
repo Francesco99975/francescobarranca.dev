@@ -10,7 +10,21 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.hook("app:beforeMount", () => {
     socket.connect();
-    console.log(socket.connected);
+  });
+
+  nuxtApp.hook("app:mounted", () => {
+    if (process.client && !location.pathname.includes("admin")) {
+      socket.emit("visit", {
+        agent: navigator.userAgent,
+        sauce: document.referrer,
+      });
+      console.log(socket.connected);
+      console.log("emitted");
+    }
+  });
+
+  nuxtApp.hook("page:start", () => {
+    socket.emit("view");
   });
 
   return {

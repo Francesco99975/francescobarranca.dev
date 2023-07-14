@@ -32,11 +32,11 @@
 </template>
 
 <script setup lang="ts">
-const { $io } = useNuxtApp();
+// const { $io } = useNuxtApp();
 
-onMounted(() => {
-  $io.emit("view");
-});
+// onMounted(() => {
+//   $io.emit("view");
+// });
 </script>
 
 <style scoped></style>

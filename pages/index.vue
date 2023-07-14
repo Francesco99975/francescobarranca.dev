@@ -31,35 +31,15 @@
       developer committed to crafting cutting-edge solutions while constantly
       pushing the boundaries of knowledge and expertise.
     </p>
-
-    <button @click="test">Test</button>
   </main>
 </template>
 
 <script setup lang="ts">
-const { $io } = useNuxtApp();
+// const { $io } = useNuxtApp();
 
-// onBeforeMount(() => {
-//   if (process.client) {
-//     if (!$io.connected) $io.connect();
-//   }
+// onMounted(() => {
+//   $io.emit("view");
 // });
-
-if (process.client) {
-  if (!$io.connected) $io.connect();
-}
-
-onMounted(() => {
-  if (process.client) {
-    $io.emit("visit", { agent: navigator.userAgent, sauce: document.referrer });
-  }
-});
-
-const test = () => {
-  console.log($io.connected);
-  $io.emit("visit", { agent: navigator.userAgent, sauce: document.referrer });
-  console.log("emitted");
-};
 </script>
 
 <style scoped></style>
