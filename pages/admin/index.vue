@@ -23,19 +23,19 @@ definePageMeta({
 // });
 
 const online = ref<number>(0);
-let visitors = reactive<Visit[]>([]);
+let visitors = ref<Visit[]>([]);
 
 const { $io } = useNuxtApp();
 
 onMounted(() => {
   $io.emit("join");
   $io.on("init", (message: { visitors: Visit[]; current: number }) => {
-    visitors = message.visitors;
+    visitors.value = message.visitors;
     online.value = message.current;
   });
   $io.on("collect", (message: { visitor: Visit; current: number }) => {
     online.value = message.current;
-    visitors.push(message.visitor);
+    visitors.value.push(message.visitor);
   });
   $io.on("visitors", (message: { current: number }) => {
     online.value = message.current;
