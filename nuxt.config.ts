@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     },
   },
   // webVitals: {
-  //   provider: "api",
+  //   // provider: "api",
   //   api: { url: "/api/vitals" },
   //   debug: true, // debug enable metrics reporting on dev environments
   // },

@@ -12,7 +12,7 @@ export default <Partial<Config>>{
   theme: {
     extend: {
       colors: {
-        base: "rgb(var(--color-base) / <alpha-value>)",
+        std: "rgb(var(--color-std) / <alpha-value>)",
         primary: "rgb(var(--color-primary) / <alpha-value>)",
         success: "rgb(var(--color-success) / <alpha-value>)",
         accent: "rgb(var(--color-accent) / <alpha-value>)",

@@ -14,13 +14,8 @@ import Visit from "interfaces/visit";
 
 definePageMeta({
   layout: "admin",
-  // middleware: ["admin-only"],
+  middleware: ["admin-only"],
 });
-
-// const state = reactive<{ visitors: Visit[]; online: number }>({
-//   visitors: [],
-//   online: 0,
-// });
 
 const online = ref<number>(0);
 let visitors = ref<Visit[]>([]);

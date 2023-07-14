@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --color-base: 255 251 255;
+    --color-std: 255 251 255;
     --color-primary: 16 59 65;
     --color-accent: 164 38 0;
     --color-success: 86 229 46;
@@ -12,7 +12,7 @@
   }
 
   :root[class~="dark"] {
-    --color-base: 26 24 27;
+    --color-std: 26 24 27;
     --color-primary: 20 255 247;
     --color-accent: 255 196 61;
     --color-success: 86 229 46;
@@ -25,7 +25,7 @@ html {
 }
 
 body {
-  @apply bg-base;
+  @apply bg-std;
 }
 
 @layer components {
@@ -39,5 +39,21 @@ body {
 
   .link {
     @apply border-b-2 border-transparent hover:border-accent;
+  }
+
+  .form-control {
+    @apply flex flex-col w-full p-2 justify-around;
+  }
+
+  .label {
+    @apply w-fit p-1;
+  }
+
+  .input {
+    @apply border-b-2 border-solid bg-transparent outline-none;
+  }
+
+  .logbtn {
+    @apply bg-accent text-std text-lg md:text-2xl w-9/12 text-center my-5 p-3 tracking-wide rounded-md cursor-pointer;
   }
 }
