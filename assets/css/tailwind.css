@@ -24,6 +24,10 @@ html {
   scroll-behavior: smooth;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 body {
   @apply bg-std;
 }
