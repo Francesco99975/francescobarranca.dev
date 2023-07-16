@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "YukiCode";
+  src: url("../fonts/YukiCode-Regular.otf");
+}
+
+@font-face {
+  font-family: "CaffeineMono";
+  src: url("../fonts/CaffeineMono.otf");
+}
+
+@font-face {
+  font-family: "Kreadon";
+  src: url("../fonts/KreadonVF.ttf");
+}
+
 @layer base {
   :root {
     --color-std: 255 251 255;
@@ -22,6 +37,7 @@
 
 html {
   scroll-behavior: smooth;
+  font-family: "CaffeineMono", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -30,6 +46,11 @@ html {
 
 body {
   @apply bg-std;
+}
+
+button {
+  font: inherit;
+  outline: none;
 }
 
 @layer components {
@@ -58,6 +79,10 @@ body {
   }
 
   .logbtn {
-    @apply bg-accent text-std text-lg md:text-2xl w-9/12 text-center my-5 p-3 tracking-wide rounded-md cursor-pointer;
+    @apply border-accent border-2 text-accent text-lg md:text-2xl w-9/12 text-center my-5 p-3 tracking-wide rounded-md cursor-pointer;
+  }
+
+  .outbtn {
+    @apply bg-accent text-std text-center font-bold px-6 py-1 tracking-wider rounded-full cursor-pointer;
   }
 }

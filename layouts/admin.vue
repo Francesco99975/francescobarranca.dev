@@ -28,6 +28,9 @@
           <li class="link">
             <NuxtLink to="/admin/commissions">Commissions</NuxtLink>
           </li>
+          <button @click="handleLogout" class="outbtn" type="button">
+            Logout
+          </button>
         </ul>
 
         <div class="hidden md:block">
@@ -67,9 +70,12 @@
           <li class="link">
             <NuxtLink to="/admin/commissions">Commissions</NuxtLink>
           </li>
-          <li>
+          <li class="link">
             <ModeSwitch />
           </li>
+          <button @click="handleLogout" class="outbtn" type="button">
+            Logout
+          </button>
         </ul>
       </nav>
     </header>
@@ -83,6 +89,13 @@
 <script setup lang="ts">
 let showMenu = ref(false);
 const toggleNav = () => (showMenu.value = !showMenu.value);
+
+const { logout } = useAuth();
+
+const handleLogout = () => {
+  logout();
+  navigateTo("/admin/auth");
+};
 </script>
 
 <style scoped>

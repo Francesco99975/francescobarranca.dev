@@ -3,13 +3,13 @@
     <section
       class="text-primary text-center text-xl my-6 md:text-2xl flex flex-col md:flex-row w-full items-center"
     >
-      <span>Admin Dashboard</span>
+      <span class="md:hidden">Admin Dashboard</span>
       <span class="flex items-center md:ml-6"
         ><div
           class="mr-2 h-3 w-3 rounded-full"
           :class="online > 0 ? 'bg-success' : 'bg-gray-600'"
         ></div>
-        {{ online }} current visitors</span
+        {{ online }} current visitor{{ online !== 1 ? "s" : "" }}</span
       >
     </section>
 
@@ -28,11 +28,49 @@
       <VertSep />
       <VStat desc="Visit Duration" :value="avgDuration" />
     </section>
+
+    <section class="w-full h-96 my-2 flex justify-center">
+      <VChart
+        :labels="[
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December',
+        ]"
+        title="Unique Visitors"
+        :data="uniqueVisitorsData"
+      />
+    </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import Visit from "interfaces/visit";
+
+const { $io } = useNuxtApp();
+
+onMounted(() => {
+  $io.emit("join");
+  $io.on("init", (message: { visitors: Visit[]; current: number }) => {
+    visitors.value = message.visitors;
+    online.value = message.current;
+  });
+  $io.on("collect", (message: { visitor: Visit; current: number }) => {
+    online.value = message.current;
+    visitors.value.push(message.visitor);
+  });
+  $io.on("visitors", (message: { current: number }) => {
+    online.value = message.current;
+  });
+});
 
 definePageMeta({
   layout: "admin",
@@ -71,21 +109,23 @@ const avgDuration = computed(
     )} sec.`
 );
 
-const { $io } = useNuxtApp();
-
-onMounted(() => {
-  $io.emit("join");
-  $io.on("init", (message: { visitors: Visit[]; current: number }) => {
-    visitors.value = message.visitors;
-    online.value = message.current;
-  });
-  $io.on("collect", (message: { visitor: Visit; current: number }) => {
-    online.value = message.current;
-    visitors.value.push(message.visitor);
-  });
-  $io.on("visitors", (message: { current: number }) => {
-    online.value = message.current;
-  });
+const uniqueVisitorsData = computed(() => {
+  const monthsData = [];
+  for (let index = 0; index < 12; index++) {
+    monthsData.push(
+      [
+        ...new Set(
+          visitors.value
+            .filter((x: Visit) => {
+              const date = new Date(x.date);
+              return date.getMonth() === index && date.getFullYear() === 2023;
+            })
+            .map((x) => x.ip)
+        ),
+      ].length
+    );
+  }
+  return monthsData;
 });
 </script>
 
