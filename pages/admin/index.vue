@@ -71,6 +71,32 @@
         :data="currentStat.data"
       />
     </section>
+
+    <section
+      class="w-full flex flex-col md:flex-row justify-around my-6 items-center md:items-start"
+    >
+      <ul class="card">
+        <li>
+          <span class="font-bold">Sauce</span>
+          <span class="font-bold">Visitors</span>
+        </li>
+        <li v-for="sauce in sauceData">
+          <span>{{ sauce.url }}</span>
+          <span>{{ sauce.visits }}</span>
+        </li>
+      </ul>
+
+      <ul class="card">
+        <li>
+          <span class="font-bold">Devices</span>
+          <span class="font-bold">Visitors</span>
+        </li>
+        <li v-for="device in deviceData">
+          <span>{{ device.info }}</span>
+          <span>{{ device.visits }}</span>
+        </li>
+      </ul>
+    </section>
   </main>
 </template>
 
@@ -89,6 +115,7 @@ import {
   today,
 } from "~/interfaces/dataset.client";
 import Visit from "~/interfaces/visit";
+import { UAParser } from "ua-parser-js";
 
 const { $io } = useNuxtApp();
 
@@ -122,6 +149,43 @@ const handleStat = (i: number) => {
 const handleStatFilter = (fil: DateFilter) => {
   selectedStat.filter = fil;
 };
+
+const deviceData = computed(() => {
+  const unique = [...new Set(visitors.value.map((v) => v.agent))];
+  const deviceInfo = [
+    ...new Set(
+      unique.map((agent) => {
+        const info = new UAParser(agent);
+        return {
+          info: info.getBrowser().name + " / " + info.getOS().name,
+          agent: agent,
+        };
+      })
+    ),
+  ];
+
+  return deviceInfo
+    .map((device) => {
+      return {
+        info: device.info,
+        visits: visitors.value.filter((v) => v.agent === device.agent).length,
+      };
+    })
+    .sort((a, b) => b.visits - a.visits);
+});
+
+const sauceData = computed(() => {
+  const unique = [...new Set(visitors.value.map((v) => v.sauce))];
+
+  return unique
+    .map((sauce) => {
+      return {
+        url: sauce,
+        visits: visitors.value.filter((v) => v.sauce === sauce).length,
+      };
+    })
+    .sort((a, b) => b.visits - a.visits);
+});
 
 const uniqueVisitors = computed(() => {
   const uvs: any[] = [];
