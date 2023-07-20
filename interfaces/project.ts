@@ -1,7 +1,7 @@
 import { Skill } from "@prisma/client";
 
 export default interface Project {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   commission: boolean;

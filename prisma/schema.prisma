@@ -45,11 +45,10 @@ model Skill {
   id               String            @id @default(cuid())
   name             String
   platform         Platform?
-  projects         Project[]
+  projects         ProjectsOnSkills[]
 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  SkillsOnProjects ProjectsOnSkills?
 
   @@map("skills")
 }
@@ -74,14 +73,13 @@ model Project {
   description      String
   commission       Boolean           @default(false)
   featured         Boolean           @default(false)
-  skills           Skill[]
+  skills           ProjectsOnSkills[]
   imageUrls        String[]
   sourceCodeUrl    String
   downloadUrl      String
 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
-  SkillsOnProjects ProjectsOnSkills?
 
   @@map("projects")
 }
@@ -91,8 +89,6 @@ model ProjectsOnSkills {
   projectId  String   @unique
   skill      Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   skillId    String   @unique
-  assignedAt DateTime @default(now())
-  assignedBy String
 
   @@id([projectId, skillId])
 }
