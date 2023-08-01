@@ -1,4 +1,4 @@
-import { Skill } from "@prisma/client";
+import Skill from "./skill";
 
 export default interface Project {
   id?: string;
@@ -6,7 +6,7 @@ export default interface Project {
   description: string;
   commission: boolean;
   featured: boolean;
-  skills: Skill[];
+  skills?: Skill[];
   imageUrls: string[];
   sourceCodeUrl: string;
   downloadUrl: string;

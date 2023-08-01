@@ -1,8 +1,8 @@
 <template>
   <div class="w-72">
-    <Listbox v-model="selectedOption">
+    <HeadlessListbox v-model="selectedOption">
       <div class="relative mt-1">
-        <ListboxButton
+        <HeadlessListboxButton
           class="relative w-full cursor-default rounded-lg bg-base py-2 pl-3 pr-10 text-left shadow-md focus:outline-none sm:text-sm"
         >
           <span class="block truncate text-primary text-lg md:text-xl">{{
@@ -17,17 +17,17 @@
               size="1.2rem"
             />
           </span>
-        </ListboxButton>
+        </HeadlessListboxButton>
 
         <transition
           leave-active-class="transition duration-100 ease-in"
           leave-from-class="opacity-100"
           leave-to-class="opacity-0"
         >
-          <ListboxOptions
+          <HeadlessListboxOptions
             class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-std py-1 text-lg md:text-xl shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           >
-            <ListboxOption
+            <HeadlessListboxOption
               v-slot="{ active, selected }"
               v-for="option in props.options"
               :key="option.label"
@@ -58,22 +58,15 @@
                   />
                 </span>
               </li>
-            </ListboxOption>
-          </ListboxOptions>
+            </HeadlessListboxOption>
+          </HeadlessListboxOptions>
         </transition>
       </div>
-    </Listbox>
+    </HeadlessListbox>
   </div>
 </template>
 
 <script setup lang="ts">
-import {
-  Listbox,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
-} from "@headlessui/vue";
-
 const props = defineProps(["options"]);
 const emits = defineEmits(["change"]);
 

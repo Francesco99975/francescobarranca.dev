@@ -44,9 +44,7 @@
           >
             <Icon
               :name="
-                !showMenu
-                  ? 'system-uicons:menu-hamburger'
-                  : 'material-symbols:close-rounded'
+                !showMenu ? 'quill:hamburger' : 'material-symbols:close-rounded'
               "
               class="text-primary"
               size="2.7rem"

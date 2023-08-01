@@ -254,12 +254,12 @@ export const last30Days = (set: RawDataset): Dataset => {
 
   for (let index = now.getDate(); index !== now.getDate() - 30; index--) {
     const dnx =
-      index >= 0
+      index > 0
         ? index
         : lastDay(now.getMonth() - 1, now.getFullYear()) + index;
     labels.push(
       `${dnx} ${
-        index >= 0
+        index > 0
           ? Months[now.getMonth()]
           : now.getMonth() - 1 < 0
           ? Months[11]
@@ -300,7 +300,7 @@ export const last30Days = (set: RawDataset): Dataset => {
       );
     }
   }
-  return { title: set.title, labels: labels.reverse(), data: ydata };
+  return { title: set.title, labels: labels.reverse(), data: ydata.reverse() };
 };
 
 export const MTD = (set: RawDataset): Dataset => {
@@ -363,12 +363,12 @@ export const last7Days = (set: RawDataset): Dataset => {
 
   for (let index = now.getDate(); index >= now.getDate() - 7; index--) {
     const dnx =
-      index >= 0
+      index > 0
         ? index
         : lastDay(now.getMonth() - 1, now.getFullYear()) + index;
     labels.push(
       `${dnx} ${
-        index >= 0
+        index > 0
           ? Months[now.getMonth()]
           : now.getMonth() - 1 < 0
           ? Months[11]

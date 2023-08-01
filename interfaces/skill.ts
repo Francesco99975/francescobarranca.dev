@@ -4,6 +4,7 @@ import Project from "./project";
 export default interface Skill {
   id?: string;
   name: string;
-  platform?: Platform;
+  platform: string | null;
+  subplatform: string | null;
   projects?: Project[];
 }

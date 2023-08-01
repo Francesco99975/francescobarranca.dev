@@ -4,7 +4,7 @@ import { prisma } from "../../db.server";
 export default defineEventHandler(async (event) => {
   try {
     const data = await readBody<Project>(event);
-    const projects = await prisma.project.update({
+    const project = await prisma.project.update({
       where: { id: data.id },
       data: {
         title: data.title,
@@ -13,17 +13,23 @@ export default defineEventHandler(async (event) => {
         featured: data.featured,
         downloadUrl: data.downloadUrl,
         sourceCodeUrl: data.sourceCodeUrl,
-        imageUrls: data.imageUrls,
-        skills: {
+        imageUrls: {
           createMany: {
-            data: data.skills!.map((s) => {
-              return { skillId: s.id! };
+            data: data.imageUrls.map((img) => {
+              return {
+                url: img,
+              };
             }),
           },
         },
+        skills: {
+          connect: data.skills!.map((skill) => {
+            return { id: skill.id };
+          }),
+        },
       },
     });
-    return { projects };
+    return { project };
   } catch (error) {
     console.log(error);
   } finally {

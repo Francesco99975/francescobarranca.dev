@@ -44,27 +44,14 @@ model Visit {
 model Skill {
   id               String            @id @default(cuid())
   name             String
-  platform         Platform?
-  projects         ProjectsOnSkills[]
+  platform         String?
+  subplatform      String?
+  projects         Project[]
 
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @updatedAt
 
   @@map("skills")
-}
-
-model Platform {
-  id        String   @id @default(cuid())
-  name      String
-  subtype   String?
-
-  skill     Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  skillId   String   @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("platforms")
 }
 
 model Project {
@@ -73,8 +60,8 @@ model Project {
   description      String
   commission       Boolean           @default(false)
   featured         Boolean           @default(false)
-  skills           ProjectsOnSkills[]
-  imageUrls        String[]
+  skills           Skill[]
+  imageUrls        Image[]
   sourceCodeUrl    String
   downloadUrl      String
 
@@ -84,13 +71,13 @@ model Project {
   @@map("projects")
 }
 
-model ProjectsOnSkills {
-  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  projectId  String   @unique
-  skill      Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  skillId    String   @unique
+model Image {
+  id        String  @id @default(cuid())
+  url       String
+  project   Project @relation(fields: [projectId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  projectId String
 
-  @@id([projectId, skillId])
+  @@map("images")
 }
 
 model Commission {

@@ -4,7 +4,7 @@ import { prisma } from "../../db.server";
 export default defineEventHandler(async (event) => {
   try {
     const data = await readBody<Project>(event);
-    const projects = await prisma.project.create({
+    const project = await prisma.project.create({
       data: {
         title: data.title,
         description: data.description,
@@ -12,17 +12,23 @@ export default defineEventHandler(async (event) => {
         featured: data.featured,
         downloadUrl: data.downloadUrl,
         sourceCodeUrl: data.sourceCodeUrl,
-        imageUrls: data.imageUrls,
-        skills: {
+        imageUrls: {
           createMany: {
-            data: data.skills!.map((s) => {
-              return { skillId: s.id! };
+            data: data.imageUrls.map((img) => {
+              return {
+                url: img,
+              };
             }),
           },
         },
+        skills: {
+          connect: data.skills!.map((skill) => {
+            return { id: skill.id };
+          }),
+        },
       },
     });
-    return { projects };
+    return { project };
   } catch (error) {
     console.log(error);
   } finally {

@@ -4,22 +4,21 @@ import { prisma } from "../../db.server";
 export default defineEventHandler(async (event) => {
   const data = await readBody<Skill>(event);
   try {
-    const skills = await prisma.skill.create({
+    const skill = await prisma.skill.create({
       data: {
         name: data.name,
-        platform: {
-          create: data.platform,
-        },
+        platform: data.platform,
+        subplatform: data.subplatform,
         projects: {
-          createMany: {
-            data: data.projects!.map((p) => {
-              return { projectId: p.id! };
-            }),
-          },
+          connect: !data.projects
+            ? []
+            : data.projects.map((prj) => {
+                return { id: prj.id };
+              }),
         },
       },
     });
-    return { skills };
+    return { skill };
   } catch (error) {
     console.log(error);
   } finally {
