@@ -59,7 +59,7 @@ button {
   }
 
   .delic {
-    @apply bg-error text-std p-2 text-center cursor-pointer;
+    @apply bg-error text-std p-1 text-center cursor-pointer rounded-md;
   }
 
   .card {

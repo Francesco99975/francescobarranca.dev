@@ -13,18 +13,20 @@
         :class="enabled ? 'translate-x-9' : 'translate-x-1'"
         class="pointer-events-none inline-block transform shadow-lg ring-0 transition duration-200 ease-in-out"
       >
-        <Icon
-          name="bi:moon-fill"
-          v-if="enabled"
-          class="text-primary text-center"
-          size="1.2rem"
-        />
-        <Icon
-          name="bi:sun-fill"
-          size="1.2rem"
-          v-else
-          class="text-accent text-center"
-        />
+        <ClientOnly>
+          <Icon
+            name="bi:moon-fill"
+            v-if="enabled"
+            class="text-primary text-center"
+            size="1.2rem"
+          />
+          <Icon
+            name="bi:sun-fill"
+            size="1.2rem"
+            v-else
+            class="text-accent text-center"
+          />
+        </ClientOnly>
       </span>
     </HeadlessSwitch>
   </div>

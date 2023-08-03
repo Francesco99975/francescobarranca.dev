@@ -8,12 +8,14 @@
       class="m-5 h-16 w-16 rounded-lg border-4 border-solid cursor-pointer"
       @click="toggleStatus"
     >
-      <Icon
-        v-if="status"
-        name="ic:baseline-check"
-        class="text-accent"
-        size="1.5rem"
-      />
+      <ClientOnly>
+        <Icon
+          v-if="status"
+          name="ic:baseline-check"
+          class="text-accent"
+          size="1.5rem"
+        />
+      </ClientOnly>
     </div>
   </div>
 </template>

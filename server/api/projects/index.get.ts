@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
       };
     });
 
-    return { projects };
+    return projects;
   } catch (error) {
     console.log(error);
   } finally {

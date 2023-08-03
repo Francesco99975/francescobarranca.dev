@@ -11,11 +11,13 @@
           <span
             class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2"
           >
-            <Icon
-              name="ic:outline-keyboard-double-arrow-down"
-              class="text-primary"
-              size="1.2rem"
-            />
+            <ClientOnly>
+              <Icon
+                name="ic:outline-keyboard-double-arrow-down"
+                class="text-primary"
+                size="1.2rem"
+              />
+            </ClientOnly>
           </span>
         </HeadlessListboxButton>
 
@@ -51,11 +53,13 @@
                   v-if="selected"
                   class="absolute inset-y-0 left-0 flex items-center pl-3 text-accent"
                 >
-                  <Icon
-                    name="ic:baseline-check"
-                    class="text-accent"
-                    size="1rem"
-                  />
+                  <ClientOnly>
+                    <Icon
+                      name="ic:baseline-check"
+                      class="text-accent"
+                      size="1rem"
+                    />
+                  </ClientOnly>
                 </span>
               </li>
             </HeadlessListboxOption>

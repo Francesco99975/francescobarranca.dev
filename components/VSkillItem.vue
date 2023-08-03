@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between items-center p-5 w-full h-32 bg-accent shadow-md text-std"
+    class="flex justify-between items-center p-5 rounded-lg w-full min-w-full min-h-[5rem] bg-accent shadow-md text-std"
   >
     <div class="flex flex-col p-2">
       <span class="text-lg md:text-xl font-bold">{{ props.skill.name }}</span>
@@ -12,11 +12,13 @@
     </div>
 
     <button class="delic" @click="handleDeletion">
-      <Icon
-        name="material-symbols:delete-sharp"
-        class="text-std"
-        size="1.5rem"
-      />
+      <ClientOnly>
+        <Icon
+          name="material-symbols:delete-sharp"
+          class="text-std"
+          size="1.5rem"
+        />
+      </ClientOnly>
     </button>
 
     <!-- <span class="text-xl md:text-2xl">U: {{ skill.projects.length }}</span> -->

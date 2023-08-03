@@ -18,8 +18,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         agent: navigator.userAgent,
         sauce: document.referrer,
       });
-      console.log(socket.connected);
-      console.log("emitted");
     }
   });
 

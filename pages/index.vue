@@ -15,7 +15,9 @@
       <ul class="flex flex-row justify-center">
         <li>
           <a href="https://github.com/Francesco99975">
-            <Icon name="uil:github" class="text-primary" size="3rem" />
+            <ClientOnly>
+              <Icon name="uil:github" class="text-primary" size="3rem" />
+            </ClientOnly>
           </a>
         </li>
         <!-- <li>
@@ -34,12 +36,6 @@
   </main>
 </template>
 
-<script setup lang="ts">
-// const { $io } = useNuxtApp();
-
-// onMounted(() => {
-//   $io.emit("view");
-// });
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

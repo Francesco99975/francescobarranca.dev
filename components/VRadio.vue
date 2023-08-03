@@ -46,11 +46,13 @@
                   </div>
                 </div>
                 <div v-show="checked" class="shrink-0 text-accent">
-                  <Icon
-                    name="ic:baseline-check"
-                    class="text-accent"
-                    size="1.5rem"
-                  />
+                  <ClientOnly>
+                    <Icon
+                      name="ic:baseline-check"
+                      class="text-accent"
+                      size="1.5rem"
+                    />
+                  </ClientOnly>
                 </div>
               </div>
             </div>

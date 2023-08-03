@@ -43,15 +43,21 @@
             type="button"
             class="text-gray-100 hover:text-gray-400 focus:outline-none focus:text-gray-400"
           >
-            <Icon
-              :name="
-                !showMenu
-                  ? 'system-uicons:menu-hamburger'
-                  : 'material-symbols:close-rounded'
-              "
-              class="text-primary"
-              size="2.7rem"
-            />
+            <ClientOnly>
+              <Icon
+                v-if="!showMenu"
+                name="system-uicons:menu-hamburger"
+                class="text-primary"
+                size="2.7rem"
+              />
+
+              <Icon
+                v-if="showMenu"
+                name="material-symbols:close-rounded"
+                class="text-primary"
+                size="2.7rem"
+              />
+            </ClientOnly>
           </button>
         </div>
 

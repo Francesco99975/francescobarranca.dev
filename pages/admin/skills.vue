@@ -40,13 +40,15 @@
           class="btn"
           :disabled="form.pending"
         >
-          <span v-if="!form.pending">Submit Skill</span>
-          <Icon
-            v-if="form.pending"
-            name="eos-icons:bubble-loading"
-            class="text-accent text-center"
-            size="1.2rem"
-          ></Icon>
+          <span class="text-center" v-if="!form.pending">Submit Skill</span>
+          <ClientOnly>
+            <Icon
+              v-if="form.pending"
+              name="eos-icons:bubble-loading"
+              class="text-accent text-center"
+              size="1.2rem"
+            ></Icon>
+          </ClientOnly>
         </button>
       </form>
     </section>
@@ -54,18 +56,20 @@
     <DynSep />
 
     <section class="flex flex-col w-full justify-center items-center">
+      <p v-if="pending">Loading...</p>
+
       <h3
-        v-if="skills && skills.length <= 0"
+        v-else-if="!skills || skills.length <= 0"
         class="text-lg md:text-xl text-primary text-center"
       >
         No Skills Yet...
       </h3>
 
       <ul
-        class="p-3 flex flex-col justify-center items-center w-full"
-        v-if="skills!.length > 0"
+        class="p-3 flex flex-col justify-start h-[80vh] overflow-scroll w-full"
+        v-else
       >
-        <li v-for="skill in skills">
+        <li class="w-full m-2" v-for="skill in skills">
           <VSkillItem :skill="skill" @delete="handleSkillRemoval" />
         </li>
       </ul>
@@ -82,16 +86,21 @@ definePageMeta({
   layout: "admin",
 });
 
-const { data: skills } = useFetch<Skill[]>("/api/skills");
+const { pending, data: skills } = await useFetch<Skill[]>("/api/skills", {
+  lazy: true,
+});
 
-const { data: projects } = useFetch<Project[]>("/api/projects");
+const { pending: prjPending, data: projects } = await useFetch<Project[]>(
+  "/api/projects",
+  { lazy: true }
+);
 
 const selectedProjectIds = ref<string[]>([]);
 
 const form = reactive({
   data: {
     skillName: "",
-    platform: { name: "", subtype: "" },
+    platform: { name: "Web", subtype: "Frontend" },
   },
   error: "",
   pending: false,
@@ -128,15 +137,18 @@ const handleSubmit = async () => {
         name: form.data.skillName,
         platform: form.data.platform.name,
         subplatform: form.data.platform.subtype,
-        projects: projects.value!.filter((prj) =>
-          selectedProjectIds.value.includes(prj.id!)
-        ),
+        projects:
+          !projects.value || projects.value.length <= 0
+            ? []
+            : projects.value.filter((prj) =>
+                selectedProjectIds.value.includes(prj.id!)
+              ),
       },
     });
     skills.value!.push(data.skill);
   } catch (error: any) {
-    console.error(error);
-    if (error.data.message) form.error = error.data.message;
+    console.log(error);
+    // if (error.data.message) form.error = error.data.message;
   } finally {
     form.pending = false;
   }

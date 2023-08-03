@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>Prj</div>
 </template>
 
 <script setup lang="ts">

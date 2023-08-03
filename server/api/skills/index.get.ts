@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
       };
     });
 
-    return { skills };
+    return skills;
   } catch (error) {
     console.log(error);
   } finally {
