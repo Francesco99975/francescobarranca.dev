@@ -18,6 +18,7 @@ logs
 .fleet
 .idea
 postgres
+thumbor
 
 # Local env files
 *.env

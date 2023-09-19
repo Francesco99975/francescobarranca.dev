@@ -13,20 +13,6 @@ export default defineEventHandler(async (event) => {
         featured: data.featured,
         downloadUrl: data.downloadUrl,
         sourceCodeUrl: data.sourceCodeUrl,
-        imageUrls: {
-          createMany: {
-            data: data.imageUrls.map((img) => {
-              return {
-                url: img,
-              };
-            }),
-          },
-        },
-        skills: {
-          connect: data.skills!.map((skill) => {
-            return { id: skill.id };
-          }),
-        },
       },
     });
     return { project };

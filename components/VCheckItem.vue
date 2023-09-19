@@ -1,11 +1,11 @@
 <template>
   <div
-    class="border-2 border-solid border-primary text-primary flex justify-between items-center p-5 w-full h-32"
+    class="border-2 border-solid border-primary text-primary flex justify-between items-center p-5 w-full"
   >
-    <span class="text-lg md:text-xl">{{ props.option.label }}</span>
+    <span class="text-sm md:text-lg">{{ props.option.label }}</span>
     <div
       :class="status ? 'border-accent' : 'border-primary'"
-      class="m-5 h-16 w-16 rounded-lg border-4 border-solid cursor-pointer"
+      class="m-5 h-8 w-8 rounded-lg border-4 border-solid cursor-pointer"
       @click="toggleStatus"
     >
       <ClientOnly>
@@ -31,7 +31,7 @@ const toggleStatus = () => {
 };
 
 watch(status, () => {
-  emits("selection", { index: props.index, status });
+  emits("selection", { index: props.index, status: status.value });
 });
 </script>
 

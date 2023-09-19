@@ -10,3 +10,15 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres:/var/lib/postgresql/data
+  thumbor:
+    depends_on:
+      - postgres
+    image: minimalcompact/thumbor
+    restart: unless-stopped
+    container_name: thumbor
+    ports:
+      - "8888:80"
+    environment:
+      - UPLOAD_ENABLED=True
+    volumes:
+      - ./thumbor:/thumbor/images

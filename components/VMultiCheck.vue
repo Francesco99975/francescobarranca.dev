@@ -1,5 +1,5 @@
 <template>
-  <ul class="p-3 flex flex-col h-64 w-full">
+  <ul class="p-3 flex flex-col h-64 w-full overflow-scroll">
     <li v-for="(option, index) in props.options">
       <VCheckItem :option="option" :index="index" @selection="handleSelected" />
     </li>
@@ -10,8 +10,8 @@
 const props = defineProps(["options"]);
 const emits = defineEmits(["choice"]);
 
-const handleSelected = (status: boolean) => {
-  selected.value.status = status;
+const handleSelected = (sel: { index: number; status: boolean }) => {
+  selected.value = sel;
 };
 
 const selected = ref<{ index: number; status: boolean }>({

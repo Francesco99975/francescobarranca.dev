@@ -3,7 +3,9 @@
     class="flex flex-col w-full items-center justify-center md:flex-row md:justify-around"
   >
     <section class="flex flex-col w-full">
-      <h1 class="text-xl md:text-2xl text-primary my-5">Manage Skills</h1>
+      <h1 class="text-xl md:text-2xl text-primary my-5 font-bold">
+        Manage Skills
+      </h1>
       <p v-if="form.error" class="my-3 text-std bg-error rounded shadow-md p-2">
         {{ form.error }}
       </p>
@@ -66,7 +68,7 @@
       </h3>
 
       <ul
-        class="p-3 flex flex-col justify-start h-[80vh] overflow-scroll w-full"
+        class="p-3 flex flex-col justify-start h-[80vh] items-center overflow-scroll w-full"
         v-else
       >
         <li class="w-full m-2" v-for="skill in skills">

@@ -26,12 +26,16 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["skill"]);
+import Skill from "interfaces/skill";
 
-const emits = defineEmits(["delete"]);
+const props = defineProps<{ skill: Skill }>();
+
+const emit = defineEmits<{
+  (event: "delete", id: string): void;
+}>();
 
 const handleDeletion = () => {
-  emits("delete", props.skill.id);
+  emit("delete", props.skill.id!);
 };
 </script>
 
