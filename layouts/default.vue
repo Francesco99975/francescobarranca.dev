@@ -16,7 +16,9 @@
           >
         </div>
 
-        <ul class="hidden md:flex gap-4 text-primary text-sm md:text-xl">
+        <ul
+          class="hidden md:flex gap-4 text-primary text-sm md:text-lg lg:text-xl"
+        >
           <li class="link">
             <NuxtLink to="/">Home</NuxtLink>
           </li>

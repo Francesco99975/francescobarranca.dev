@@ -47,6 +47,7 @@ export default defineEventHandler(async (event) => {
     const body: any[] = Object.values(
       await handleMultiPartFormData(event.node.req)
     );
+
     const data: Project = JSON.parse(body.shift()[0]);
 
     const files: FileJSON[] = [];

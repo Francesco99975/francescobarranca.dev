@@ -1,6 +1,10 @@
 <template>
   <main class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl text-primary font-bold -ml-7 mb-5">Skills</h1>
+    <h1
+      class="text-3xl text-primary font-bold -ml-7 mb-5 underline underline-offset-2"
+    >
+      Skills
+    </h1>
     <section
       v-if="skills && !pending"
       class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
@@ -15,8 +19,8 @@
       </div>
     </section>
     <section
-      v-if="!skills && !pending"
-      class="flex items-center justify-center w-full h-[80vh]"
+      v-if="(!skills || skills.length <= 0) && !pending"
+      class="flex items-center justify-center w-full h-[60vh]"
     >
       <h1 class="text-center text-accent italic">
         No Skills <span class="underline">git gud</span>

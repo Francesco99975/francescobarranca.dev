@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "nuxt-icon",
     "nuxt-headlessui",
+    "@nuxt/image",
     // "@nuxtjs/web-vitals",
   ],
   ignore: ["postgres"],
