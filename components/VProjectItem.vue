@@ -41,14 +41,20 @@
       <a
         :href="props.project.sourceCodeUrl"
         target="_blank"
-        class="w-1/3 p-2 rounded bg-std text-primary text-center block"
+        class="w-1/3 p-2 rounded bg-std text-primary text-center block min-w-fit"
         >Source</a
       >
       <a
         :href="props.project.downloadUrl"
         target="_blank"
-        class="w-1/3 p-2 rounded bg-std text-primary text-center block"
-        >Download</a
+        class="w-1/3 p-2 rounded bg-std text-primary text-center block min-w-fit"
+        >{{
+          !project.skills
+            ? "Try It"
+            : project.skills.map((x) => x.subplatform).includes("Frontend")
+            ? "View"
+            : "Download"
+        }}</a
       >
     </section>
   </div>

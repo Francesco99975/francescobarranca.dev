@@ -45,9 +45,7 @@
         >{{
           !project.skills
             ? "Try It"
-            : project.skills
-                .map((x) => x.platform)
-                .includes("HTML/CSS/Javascript")
+            : project.skills.map((x) => x.subplatform).includes("Frontend")
             ? "View"
             : "Download"
         }}</a
