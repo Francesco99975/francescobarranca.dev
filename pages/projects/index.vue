@@ -9,12 +9,11 @@
       v-if="projects && !pending"
       class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
     >
-      <NuxtLink
-        :to="`/projects/${project.id}`"
-        v-for="(project, index) in projects"
-      >
-        <VProjectCard :key="index" :project="project" />
-      </NuxtLink>
+      <VProjectCard
+        v-for="project in projects"
+        :key="project.id"
+        :project="project"
+      />
     </section>
 
     <section

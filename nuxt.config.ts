@@ -10,6 +10,9 @@ export default defineNuxtConfig({
     // "@nuxtjs/web-vitals",
   ],
   ignore: ["postgres"],
+  image: {
+    screen: {},
+  },
   colorMode: {
     classSuffix: "",
   },

@@ -1,6 +1,11 @@
 <template>
-  <main class="container mx-auto px-4 py-8">
-    <section class="relative flex flex-col items-center">
+  <main class="container mx-auto px-4 py-8 relative">
+    <span
+      v-if="project?.commission"
+      class="absolute z-10 -top-7 md:top-5 right-5 border-accent border-2 md:border-4 p-2 md:p-4 rounded text-accent text-sm md:text-base font-bold italic rotate-12 tracking-widest"
+      >COMMISSIONED</span
+    >
+    <section class="flex flex-col items-center">
       <h1
         class="text-3xl text-center text-primary font-bold mb-5 underline underline-offset-2"
       >
@@ -15,23 +20,52 @@
         >
       </div>
 
-      <p class="text-lg text-primary w-3/4 text-center">
+      <p
+        class="text-lg text-primary w-full md:w-3/4 text-center max-h-60 overflow-scroll"
+      >
         {{ project?.description }}
       </p>
 
-      <div class="carousel m-2 relative">
-        <span
-          v-if="project?.commission"
-          class="absolute z-10 top-5 right-5 border-accent border-4 p-4 rounded text-accent font-bold italic rotate-12 tracking-widest"
-          >COMMISSIONED</span
+      <div
+        class="flex flex-col md:flex-row w-full md:justify-around items-center font-bold tracking-widest"
+      >
+        <a
+          :href="project?.sourceCodeUrl"
+          target="_blank"
+          class="w-1/3 p-2 rounded bg-accent text-std text-center block m-2 min-w-fit max-w-sm"
+          >Source</a
         >
+        <a
+          :href="project?.downloadUrl"
+          target="_blank"
+          class="w-1/3 p-2 rounded bg-accent text-std text-center block m-2 min-w-fit max-w-sm"
+          >{{
+            !project?.skills
+              ? "Try It"
+              : project.skills.map((x) => x.platform).includes("Mobile") ||
+                project.skills.map((x) => x.platform).includes("Desktop")
+              ? "Download"
+              : "View"
+          }}</a
+        >
+      </div>
+
+      <div class="carousel flex justify-center items-center m-2">
         <div class="carousel-inner" ref="inner">
           <div
             v-for="(url, index) in project?.imageUrls"
             class="carousel-item"
             :key="index"
           >
-            <NuxtImg :src="BASE_IMG_URL + url" :alt="'PImg' + index" />
+            <!--   sizes="xs:300px md:350px xl:250px xxl:200px 1500px" -->
+            <NuxtImg
+              :src="BASE_IMG_URL + url"
+              :alt="'PImg' + index"
+              format="webp"
+              fit="outside"
+              quality="80"
+              class="inline-block"
+            />
           </div>
         </div>
       </div>
@@ -52,7 +86,7 @@ const { pending, data: project } = await useFetch<Project>(
 );
 
 const BASE_IMG_URL = "http://localhost:8888";
-const slideDuration = 3000;
+const slideDuration = 5000;
 
 const currentIndex = ref<number>(0);
 const inner = ref<HTMLElement | null>(null);
@@ -60,6 +94,10 @@ const autoSlideInterval = ref();
 
 onMounted(() => {
   startAutoSlide();
+});
+
+onUnmounted(() => {
+  stopAutoSlide();
 });
 
 // Function to navigate to the next slide
@@ -109,14 +147,8 @@ const stopAutoSlide = () => {
 .carousel-item {
   display: inline-block;
   width: 100%;
-  min-height: 500px; /* Set a minimum height for your images */
   text-align: center;
 }
 
 /* Define responsive breakpoints */
-@media (min-width: 640px) {
-  .carousel-item {
-    min-height: 300px; /* Adjust the height for larger screens */
-  }
-}
 </style>

@@ -22,8 +22,7 @@ const uploadFileToThumbor = async (fileData: FileJSON) => {
       },
     });
 
-    // Handle the Thumbor response (e.g., you can console.log(response.data))
-    console.log("Thumbor Response:", response.headers.location);
+    // Handle the Thumbor response (e.g., you can console.log(response.headers.location))
     return response.headers.location;
   } catch (error) {
     console.error("Error uploading file to Thumbor:", error);
