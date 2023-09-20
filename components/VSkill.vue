@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col justify-between items-center p-2 my-2 w-full bg-std shadow-md text-primary"
+    class="flex flex-col justify-between items-center p-2 my-2 w-full bg-std shadow-md text-primary rounded"
   >
     <div class="flex flex-col p-2">
       <span class="text-lg font-bold">{{ props.name }}</span>

@@ -55,9 +55,13 @@ const skillCards = computed(() => {
           skill.platform === null;
         }
       });
-      const subs: string[] = filteredSkills.map((skill) =>
-        skill.subplatform ? skill.subplatform : ""
-      );
+      const subs: string[] = [
+        ...new Set(
+          filteredSkills.map((skill) =>
+            skill.subplatform ? skill.subplatform : ""
+          )
+        ),
+      ];
       subplatformsList.push(subs.filter((s) => s.length > 0));
 
       skillsList.push(filteredSkills);

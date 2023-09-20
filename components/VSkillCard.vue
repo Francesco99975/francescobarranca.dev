@@ -1,6 +1,6 @@
 <template>
   <section
-    class="flex flex-col justify-between items-center p-2 max-h-80 w-full bg-accent shadow-md"
+    class="flex flex-col justify-between items-center p-2 max-h-80 w-full bg-accent shadow-md rounded-md"
   >
     <h1 class="text-xl md:text-2xl text-std font-bold text-center">
       {{ platform }}
