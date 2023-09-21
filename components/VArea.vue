@@ -1,20 +1,21 @@
 <template>
   <div class="form-control">
     <label :for="name" class="label text-primary">{{ label }}</label>
-    <input
-      :type="type"
+
+    <textarea
       :name="name"
       :id="name"
-      :min="type === 'number' && min"
-      :max="type === 'number' && max"
+      cols="30"
+      rows="10"
       v-model="value"
-      class="input text-accent border-accent pb-1"
-    />
+      class="border-2 bg-transparent outline-none rounded-lg p-2 text-primary border-accent pb-1"
+      >{{ value }}</textarea
+    >
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["name", "label", "type", "min", "max", "value"]);
+const props = defineProps(["name", "label", "value"]);
 
 const emit = defineEmits(["update:value"]);
 

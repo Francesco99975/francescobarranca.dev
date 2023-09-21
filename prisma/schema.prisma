@@ -81,18 +81,28 @@ model Image {
 }
 
 model Commission {
-  id          String   @id @default(cuid())
-  subject     String
-  description String
-  theme       String
-  pages       Int
-  pwa         Boolean
-  static      Boolean
-  accepted    Boolean  @default(false)
-  completed   Boolean  @default(false)
+  id           String   @id @default(cuid())
+  subject      String
+  description  String
+  theme        String
+  pages        Int
+  pwa          Boolean
+  environments Environment[]
+  static       Boolean
+  accepted     Boolean  @default(false)
+  completed    Boolean  @default(false)
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("commissions")
+}
+
+model Environment {
+  id           String  @id @default(cuid())
+  name         String
+  commission   Commission @relation(fields: [commissionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  commissionId String
+
+  @@map("environments")
 }

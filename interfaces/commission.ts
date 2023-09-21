@@ -6,6 +6,7 @@ export default interface Commission {
   pages: number;
   pwa: boolean;
   static: boolean;
+  environs: string[];
   accepted: boolean;
   completed: boolean;
 }
