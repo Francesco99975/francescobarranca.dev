@@ -3,27 +3,62 @@ import { prisma } from "../../db.server";
 
 export default defineEventHandler(async (event) => {
   try {
-    const data = await readBody<Commission>(event);
-    const commission = await prisma.commission.create({
-      data: {
-        subject: data.subject,
-        description: data.description,
-        theme: data.theme,
-        pages: data.pages,
-        pwa: data.pwa,
-        static: data.static,
-        environments: {
-          createMany: {
-            data: data.environs.map((environ) => {
-              return {
-                name: environ,
-              };
-            }),
+    const data = await readBody<{
+      commission: Commission;
+      customerEmail: string;
+    }>(event);
+
+    const existingCustomer = await prisma.customer.findFirst({
+      where: { email: data.customerEmail },
+      include: { commissions: true },
+    });
+
+    if (!existingCustomer) {
+      await prisma.customer.create({
+        data: {
+          email: data.customerEmail,
+          commissions: {
+            createMany: {
+              data: [
+                {
+                  subject: data.commission.subject,
+                  description: data.commission.description,
+                  theme: data.commission.theme,
+                  pages: data.commission.pages,
+                  pwa: data.commission.pwa,
+                  static: data.commission.static,
+                  environment: data.commission.environ,
+                },
+              ],
+            },
           },
         },
-      },
-    });
-    return commission;
+      });
+    } else {
+      await prisma.customer.update({
+        where: { email: data.customerEmail },
+        data: {
+          commissions: {
+            createMany: {
+              data: [
+                ...existingCustomer.commissions,
+                {
+                  subject: data.commission.subject,
+                  description: data.commission.description,
+                  theme: data.commission.theme,
+                  pages: data.commission.pages,
+                  pwa: data.commission.pwa,
+                  static: data.commission.static,
+                  environment: data.commission.environ,
+                },
+              ],
+            },
+          },
+        },
+      });
+    }
+
+    return "success";
   } catch (error) {
     console.log(error);
   } finally {

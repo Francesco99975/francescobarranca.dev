@@ -27,13 +27,9 @@
 
         <h3 class="text-primary text-lg italic">Choose platforms needed</h3>
 
-        <VMultiCheck
+        <VRadioCommission
           v-if="environs && environs.length > 0"
-          :options="
-            environs.map((el) => {
-              return { id: el.name, label: el.name };
-            })
-          "
+          :platforms="environs"
           @choice="handleEnvironsSelection"
         />
 
@@ -146,7 +142,7 @@
 </template>
 
 <script setup lang="ts">
-import { Commission } from "@prisma/client";
+import Commission from "interfaces/commission";
 
 const environs = ref<{ name: string; value: boolean }[]>([
   { name: "CLI App", value: false },
@@ -155,6 +151,8 @@ const environs = ref<{ name: string; value: boolean }[]>([
   { name: "Mobile App (iOS)", value: false },
   { name: "Desktop App", value: false },
 ]);
+
+const chosenEnv = ref<string>("");
 
 const pwa = ref<boolean>(false);
 
@@ -168,11 +166,8 @@ const toggleStatic = () => {
   stat.value = !stat.value;
 };
 
-const handleEnvironsSelection = (choice: {
-  index: number;
-  status: boolean;
-}) => {
-  environs.value[choice.index].value = choice.status;
+const handleEnvironsSelection = (choice: string) => {
+  chosenEnv.value = choice;
 };
 
 const form = reactive({
@@ -191,12 +186,10 @@ const handleSubmit = async (event: Event) => {
   event.preventDefault();
 
   try {
-    const _environs = environs.value.filter((x) => x.value).map((x) => x.name);
     form.pending = true;
     form.error = "";
 
     if (
-      _environs.length <= 0 ||
       Object.values(form.data)
         .filter((x) => typeof x === "string")
         .some((x) => x.toString().trim().length <= 0 || form.data.pages <= 0)
@@ -205,16 +198,19 @@ const handleSubmit = async (event: Event) => {
       return;
     }
 
-    const commission = {
-      ...form.data,
-      environs: _environs,
+    const commission: Commission = {
+      subject: form.data.subject,
+      description: form.data.description,
+      pages: form.data.pages,
+      theme: form.data.theme,
       static: !stat,
+      environ: chosenEnv.value,
       pwa: pwa.value,
     };
 
     await $fetch<Commission>("/api/commissions", {
       method: "POST",
-      body: commission,
+      body: { commission, customerEmail: form.data.customerEmail },
     });
   } catch (error) {
     form.error = "Something Went wrong";

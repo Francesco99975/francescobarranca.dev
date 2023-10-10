@@ -87,10 +87,14 @@ model Commission {
   theme        String
   pages        Int
   pwa          Boolean
-  environments Environment[]
+  environment  String
   static       Boolean
   accepted     Boolean  @default(false)
   completed    Boolean  @default(false)
+  price        Int      @default(0)
+  subscription Int      @default(0)
+  customer     Customer @relation(fields: [customerId], references: [email], onUpdate: Cascade, onDelete: Cascade)
+  customerId   String
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -98,11 +102,12 @@ model Commission {
   @@map("commissions")
 }
 
-model Environment {
-  id           String  @id @default(cuid())
-  name         String
-  commission   Commission @relation(fields: [commissionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  commissionId String
+model Customer {
+  email        String      @id
+  firstname    String?
+  lastname     String?
+  address      String?
+  commissions  Commission[]
 
-  @@map("environments")
+  @@map("customers")
 }
