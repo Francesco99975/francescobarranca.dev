@@ -1,22 +1,27 @@
 import Commission from "../../../interfaces/commission";
+import { Customer } from "../../../interfaces/customer";
 import { prisma } from "../../db.server";
 
 export default defineEventHandler(async (event) => {
   try {
     const data = await readBody<{
       commission: Commission;
-      customerEmail: string;
+      customer: Customer;
     }>(event);
 
     const existingCustomer = await prisma.customer.findFirst({
-      where: { email: data.customerEmail },
+      where: { email: data.customer.email },
       include: { commissions: true },
     });
 
     if (!existingCustomer) {
       await prisma.customer.create({
         data: {
-          email: data.customerEmail,
+          email: data.customer.email,
+          address: data.customer.address,
+          firstname: data.customer.firstname,
+          lastname: data.customer.address,
+          middlename: data.customer.middlename || undefined,
           commissions: {
             createMany: {
               data: [
@@ -36,7 +41,7 @@ export default defineEventHandler(async (event) => {
       });
     } else {
       await prisma.customer.update({
-        where: { email: data.customerEmail },
+        where: { email: data.customer.email },
         data: {
           commissions: {
             createMany: {

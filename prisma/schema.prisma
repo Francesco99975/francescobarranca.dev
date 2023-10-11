@@ -104,9 +104,10 @@ model Commission {
 
 model Customer {
   email        String      @id
-  firstname    String?
-  lastname     String?
-  address      String?
+  firstname    String
+  middlename   String?
+  lastname     String
+  address      String
   commissions  Commission[]
 
   @@map("customers")

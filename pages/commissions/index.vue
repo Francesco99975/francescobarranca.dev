@@ -33,7 +33,7 @@
           @choice="handleEnvironsSelection"
         />
 
-        <div v-if="environs[1].value" class="flex justify-between p-2">
+        <div v-if="chosenEnv === 'Website'" class="flex justify-between p-2">
           <span class="text-primary"
             >Should this website operate as an installable application on
             desktop and mobile ?</span
@@ -67,7 +67,7 @@
           </HeadlessSwitch>
         </div>
 
-        <div v-if="environs[1].value" class="flex justify-between p-2">
+        <div v-if="chosenEnv === 'Website'" class="flex justify-between p-2">
           <span class="text-primary"
             >Does this website manage data like users or images?</span
           >
@@ -108,15 +108,56 @@
           :min="0"
           :max="10"
           @update:value="(val: number) => form.data.pages = val"
+          class="w-2/3 md:w-1/3"
         />
 
-        <VInput
-          name="email"
-          label="Your Email Adress"
-          type="text"
-          :value="form.data.customerEmail"
-          @update:value="(val: string) => form.data.customerEmail = val"
-        />
+        <div class="flex flex-col w-full justify-center items-center mt-8">
+          <h2 class="text-lg text-center text-accent font-bold">Client Info</h2>
+          <VInput
+            name="email"
+            label="Your Email Address"
+            type="text"
+            :value="form.data.customerEmail"
+            @update:value="(val: string) => form.data.customerEmail = val"
+            class="w-full md:w-3/4"
+          />
+
+          <VInput
+            name="firstname"
+            label="Your First Name"
+            type="text"
+            :value="form.data.customerFirstname"
+            @update:value="(val: string) => form.data.customerFirstname = val"
+            class="w-full md:w-3/4"
+          />
+
+          <VInput
+            name="middlename"
+            label="Your Middle Name (if applicable)"
+            type="text"
+            :value="form.data.customerMiddlename"
+            @update:value="(val: string) => form.data.customerMiddlename = val"
+            class="w-full md:w-3/4"
+          />
+
+          <VInput
+            name="lastname"
+            label="Your Last name"
+            type="text"
+            :value="form.data.customerLastname"
+            @update:value="(val: string) => form.data.customerLastname = val"
+            class="w-full md:w-3/4"
+          />
+
+          <VInput
+            name="address"
+            label="Your Address"
+            type="text"
+            :value="form.data.customerAddress"
+            @update:value="(val: string) => form.data.customerAddress = val"
+            class="w-full md:w-3/4"
+          />
+        </div>
 
         <button
           type="submit"
@@ -143,10 +184,11 @@
 
 <script setup lang="ts">
 import Commission from "interfaces/commission";
+import { Customer } from "interfaces/customer";
 
 const environs = ref<{ name: string; value: boolean }[]>([
   { name: "CLI App", value: false },
-  { name: "Webiste", value: false },
+  { name: "Website", value: false },
   { name: "Mobile App (Android)", value: false },
   { name: "Mobile App (iOS)", value: false },
   { name: "Desktop App", value: false },
@@ -177,6 +219,10 @@ const form = reactive({
     theme: "",
     pages: 0,
     customerEmail: "",
+    customerFirstname: "",
+    customerMiddlename: "",
+    customerLastname: "",
+    customerAddress: "",
   },
   error: "",
   pending: false,
@@ -208,9 +254,17 @@ const handleSubmit = async (event: Event) => {
       pwa: pwa.value,
     };
 
+    const customer: Customer = {
+      email: form.data.customerEmail,
+      firstname: form.data.customerFirstname,
+      middlename: form.data.customerMiddlename,
+      lastname: form.data.customerLastname,
+      address: form.data.customerAddress,
+    };
+
     await $fetch<Commission>("/api/commissions", {
       method: "POST",
-      body: { commission, customerEmail: form.data.customerEmail },
+      body: { commission, customer },
     });
   } catch (error) {
     form.error = "Something Went wrong";
@@ -221,6 +275,10 @@ const handleSubmit = async (event: Event) => {
       theme: "",
       pages: 0,
       customerEmail: "",
+      customerAddress: "",
+      customerFirstname: "",
+      customerLastname: "",
+      customerMiddlename: "",
     };
     form.pending = false;
   }
