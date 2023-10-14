@@ -62,7 +62,7 @@
 
         <ul
           :class="showMenu ? 'flex' : 'hidden'"
-          class="fixed top-0 right-0 z-10 flex-col bg-std p-4 rounded-sm shadow-lg mt-20 mr-2 space-y-4 md:hidden text-primary"
+          class="fixed top-0 right-0 z-50 flex-col bg-std p-4 rounded-sm shadow-lg mt-20 mr-2 space-y-4 md:hidden text-primary"
         >
           <li class="link">
             <NuxtLink to="/admin">Dashboard</NuxtLink>
