@@ -1,3 +1,4 @@
+import { Status } from "@prisma/client";
 import { prisma } from "../../db.server";
 
 export default defineEventHandler(async (event) => {
@@ -6,8 +7,7 @@ export default defineEventHandler(async (event) => {
       id: string;
       price?: number;
       subscription?: number;
-      accepted?: boolean;
-      completed?: boolean;
+      status?: Status;
     }>(event);
     let commission;
     if (data.price) {
@@ -22,8 +22,7 @@ export default defineEventHandler(async (event) => {
       commission = await prisma.commission.update({
         where: { id: data.id },
         data: {
-          accepted: data.accepted,
-          completed: data.completed,
+          status: data.status,
         },
       });
     }

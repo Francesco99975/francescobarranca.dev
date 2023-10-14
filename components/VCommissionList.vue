@@ -8,8 +8,7 @@
         :subject="el.commission.subject"
         :email="el.customerEmail"
         :environ="el.commission.environ"
-        :accepted="el.commission.accepted!"
-        :completed="el.commission.completed!"
+        :status="el.commission.status!"
         :id="el.commission.id!"
       />
     </li>

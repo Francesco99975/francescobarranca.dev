@@ -1,3 +1,13 @@
+// export enum Status {
+//   SUBMITTED = "submitted",
+//   PENDING = "pending",
+//   ACCEPTED = "accepted",
+//   INVOICING = "invoicing",
+//   COMPLETED = "completed",
+// }
+
+import { Status } from "@prisma/client";
+
 export default interface Commission {
   id?: string;
   subject: string;
@@ -7,8 +17,7 @@ export default interface Commission {
   pwa: boolean;
   static: boolean;
   environ: string;
-  accepted?: boolean;
-  completed?: boolean;
+  status?: Status;
   price?: number;
   subscription?: number;
   createdAt?: Date;

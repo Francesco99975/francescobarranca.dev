@@ -3,8 +3,13 @@
     v-if="data && !pending"
     class="flex flex-col w-full items-center justify-center"
   >
-    <div>
-      <a :href="'mailto:' + data.customerEmail" class="">
+    <div class="flex justify-center items-center p-2 w-full my-6 relative">
+      <span
+        v-if="data.commission.pwa"
+        class="absolute top-0 right-0 z-20 font-bold text-lg p-2 rounded text-center text-std bg-accent"
+        >PWA</span
+      >
+      <a :href="'mailto:' + data.customerEmail" class="m-2">
         <ClientOnly>
           <Icon
             name="material-symbols:mail-sharp"
@@ -13,21 +18,40 @@
           ></Icon
         ></ClientOnly>
       </a>
-      <h1>
+
+      <h1 class="text-primary text-2xl max-w-[70%]">
         {{ data.commission.subject }} -
-        <span class="relative">
-          <span v-if="data.commission.pwa" class="absolute">PWA</span
+        <span
+          class="p-2 rounded-lg text-lg border-2 border-primary leading-3"
           >{{ data.commission.environ }}</span
         >
       </h1>
     </div>
 
-    <p>{{ data.commission.description }}</p>
+    <h2 class="text-xl my-2 text-primary font-bold italic tracking-widest">
+      Project Description
+    </h2>
+
+    <p
+      class="my-3 p-2 rounded-sm border-2 border-primary text-accent leading-8"
+    >
+      {{ data.commission.description }}
+    </p>
+
+    <h2 class="text-xl my-2 text-primary font-bold italic tracking-widest">
+      Theme Description
+    </h2>
 
     <div class="relative">
-      <p>{{ data.commission.theme }}</p>
-      <span class="absolute">{{ data.commission.pages }}</span>
-      <span v-if="data.commission.static" class="absolute">STATIC</span>
+      <p
+        class="my-3 p-2 rounded-sm border-2 border-primary text-accent leading-8"
+      >
+        {{ data.commission.theme }}
+      </p>
+      <span
+        class="absolute bottom-0 right-0 text-lg p-2 rounded text-center text-std bg-accent font-bold"
+        >{{ data.commission.pages }} Pages</span
+      >
     </div>
   </main>
 </template>

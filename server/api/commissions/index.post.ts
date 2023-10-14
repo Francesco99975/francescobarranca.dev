@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
           email: data.customer.email,
           address: data.customer.address,
           firstname: data.customer.firstname,
-          lastname: data.customer.address,
+          lastname: data.customer.lastname,
           middlename: data.customer.middlename || undefined,
           commissions: {
             createMany: {

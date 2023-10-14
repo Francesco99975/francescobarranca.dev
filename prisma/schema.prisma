@@ -80,6 +80,14 @@ model Image {
   @@map("images")
 }
 
+enum Status {
+  SUBMITTED
+  PENDING
+  ACCEPTED
+  INVOICING
+  COMPLETED
+}
+
 model Commission {
   id           String   @id @default(cuid())
   subject      String
@@ -89,8 +97,7 @@ model Commission {
   pwa          Boolean
   environment  String
   static       Boolean
-  accepted     Boolean  @default(false)
-  completed    Boolean  @default(false)
+  status       Status   @default(SUBMITTED)
   price        Int      @default(0)
   subscription Int      @default(0)
   customer     Customer @relation(fields: [customerId], references: [email], onUpdate: Cascade, onDelete: Cascade)

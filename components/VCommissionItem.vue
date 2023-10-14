@@ -28,7 +28,7 @@
 
     <div class="flex md:m-2 py-2 w-full md:w-1/3 md:justify-center">
       <button
-        v-if="!accepted && !completed"
+        v-if="status === Status.SUBMITTED"
         @click="handleAccept"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
@@ -36,7 +36,7 @@
         ACCEPT
       </button>
       <button
-        v-if="!accepted && !completed"
+        v-if="status === Status.SUBMITTED"
         @click="handleReject"
         type="button"
         class="w-full mx-2 bg-std border-2 border-error rounded-xl text-error hover:bg-error hover:text-white tracking-widest font-bold shadow-lg"
@@ -45,7 +45,7 @@
       </button>
 
       <button
-        v-if="accepted && !completed"
+        v-if="status === Status.ACCEPTED"
         @click="handleInvoicing"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
@@ -54,7 +54,7 @@
       </button>
 
       <div
-        v-if="completed"
+        v-if="status === Status.COMPLETED"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success tracking-widest font-bold shadow-lg"
       >
         COMPLETED
@@ -64,13 +64,14 @@
 </template>
 
 <script setup lang="ts">
+import { Status } from "@prisma/client";
+
 const props = defineProps<{
   id: string;
   subject: string;
   email: string;
   environ: string;
-  accepted: boolean;
-  completed: boolean;
+  status: Status;
 }>();
 
 const emit = defineEmits<{
