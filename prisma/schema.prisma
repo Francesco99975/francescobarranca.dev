@@ -96,7 +96,6 @@ model Commission {
   pages        Int
   pwa          Boolean
   environment  String
-  static       Boolean
   status       Status   @default(SUBMITTED)
   price        Int      @default(0)
   subscription Int      @default(0)

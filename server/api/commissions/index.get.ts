@@ -17,7 +17,6 @@ export default defineEventHandler(async (event) => {
           pages: comm.pages,
           environ: comm.environment,
           pwa: comm.pwa,
-          static: comm.static,
           status: comm.status,
           createdAt: comm.createdAt,
           updatedAt: comm.updatedAt,

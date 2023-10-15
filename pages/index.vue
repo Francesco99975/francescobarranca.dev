@@ -50,6 +50,19 @@
           :project="project"
         />
       </div>
+      <span class="text-primary tracking-wide italic mt-2"
+        ><NuxtLink
+          class="underline-offset-4 hover:underline hover:text-accent"
+          to="/privacy"
+          >Privacy Policy</NuxtLink
+        >
+        <div class="rounded-full bg-primary w-2 h-2 inline-block mx-2"></div>
+        <NuxtLink
+          class="underline-offset-4 hover:underline hover:text-accent"
+          to="/terms"
+          >Terms and Conditions</NuxtLink
+        ></span
+      >
     </section>
   </main>
 </template>

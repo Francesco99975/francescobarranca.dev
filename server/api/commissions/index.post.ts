@@ -7,7 +7,11 @@ export default defineEventHandler(async (event) => {
     const data = await readBody<{
       commission: Commission;
       customer: Customer;
+      privacyPolicyAgreed: boolean;
     }>(event);
+
+    if (!data.privacyPolicyAgreed)
+      return "Agree to the privacy policy to submit commission";
 
     const existingCustomer = await prisma.customer.findFirst({
       where: { email: data.customer.email },
@@ -31,7 +35,6 @@ export default defineEventHandler(async (event) => {
                   theme: data.commission.theme,
                   pages: data.commission.pages,
                   pwa: data.commission.pwa,
-                  static: data.commission.static,
                   environment: data.commission.environ,
                 },
               ],
@@ -53,7 +56,6 @@ export default defineEventHandler(async (event) => {
                   theme: data.commission.theme,
                   pages: data.commission.pages,
                   pwa: data.commission.pwa,
-                  static: data.commission.static,
                   environment: data.commission.environ,
                 },
               ],

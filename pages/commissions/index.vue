@@ -67,39 +67,6 @@
           </HeadlessSwitch>
         </div>
 
-        <div v-if="chosenEnv === 'Website'" class="flex justify-between p-2">
-          <span class="text-primary"
-            >Does this website manage data like users or images?</span
-          >
-          <HeadlessSwitch
-            v-model="stat"
-            @click="toggleStatic"
-            :class="stat ? 'bg-gray-800' : 'bg-gray-800'"
-            class="inline-flex h-[33px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-          >
-            <span
-              aria-hidden="true"
-              :class="stat ? 'translate-x-9' : 'translate-x-1'"
-              class="pointer-events-none inline-block transform shadow-lg ring-0 transition duration-200 ease-in-out"
-            >
-              <ClientOnly>
-                <Icon
-                  name="line-md:confirm-circle"
-                  v-if="stat"
-                  class="text-success text-center"
-                  size="1.2rem"
-                />
-                <Icon
-                  name="material-symbols:do-not-disturb-on-outline"
-                  size="1.2rem"
-                  v-else
-                  class="text-error text-center"
-                />
-              </ClientOnly>
-            </span>
-          </HeadlessSwitch>
-        </div>
-
         <VInput
           name="pages"
           label="How many pages/screens does you app/website need?"
@@ -159,6 +126,56 @@
           />
         </div>
 
+        <div class="flex justify-around pt-6">
+          <span class="text-primary font-bold"
+            >I Agree to the
+            <NuxtLink
+              to="/privacy"
+              class="italic hover:underline hover:text-accent underline-offset-4"
+              >Privacy Policy</NuxtLink
+            >
+            and
+            <NuxtLink
+              to="/terms"
+              class="italic hover:underline hover:text-accent underline-offset-4"
+              >Terms and Conditions</NuxtLink
+            ></span
+          >
+          <HeadlessSwitch
+            v-model="form.data.privacyPolicyAgreed"
+            @click="togglePrivacy"
+            :class="
+              form.data.privacyPolicyAgreed ? 'bg-gray-800' : 'bg-gray-800'
+            "
+            class="inline-flex h-[33px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          >
+            <span
+              aria-hidden="true"
+              :class="
+                form.data.privacyPolicyAgreed
+                  ? 'translate-x-9'
+                  : 'translate-x-1'
+              "
+              class="pointer-events-none inline-block transform shadow-lg ring-0 transition duration-200 ease-in-out"
+            >
+              <ClientOnly>
+                <Icon
+                  name="line-md:confirm-circle"
+                  v-if="form.data.privacyPolicyAgreed"
+                  class="text-success text-center"
+                  size="1.2rem"
+                />
+                <Icon
+                  name="material-symbols:do-not-disturb-on-outline"
+                  size="1.2rem"
+                  v-else
+                  class="text-error text-center"
+                />
+              </ClientOnly>
+            </span>
+          </HeadlessSwitch>
+        </div>
+
         <button
           type="submit"
           :class="form.pending && 'cursor-wait'"
@@ -202,10 +219,8 @@ const togglePWA = () => {
   pwa.value = !pwa.value;
 };
 
-const stat = ref<boolean>(false);
-
-const toggleStatic = () => {
-  stat.value = !stat.value;
+const togglePrivacy = () => {
+  form.data.privacyPolicyAgreed = !form.data.privacyPolicyAgreed;
 };
 
 const handleEnvironsSelection = (choice: string) => {
@@ -223,6 +238,7 @@ const form = reactive({
     customerMiddlename: "",
     customerLastname: "",
     customerAddress: "",
+    privacyPolicyAgreed: false,
   },
   error: "",
   pending: false,
@@ -249,7 +265,6 @@ const handleSubmit = async (event: Event) => {
       description: form.data.description,
       pages: form.data.pages,
       theme: form.data.theme,
-      static: !stat,
       environ: chosenEnv.value,
       pwa: pwa.value,
     };
@@ -264,7 +279,11 @@ const handleSubmit = async (event: Event) => {
 
     await $fetch<Commission>("/api/commissions", {
       method: "POST",
-      body: { commission, customer },
+      body: {
+        commission,
+        customer,
+        privacyPolicyAgreed: form.data.privacyPolicyAgreed,
+      },
     });
   } catch (error) {
     form.error = "Something Went wrong";
@@ -279,6 +298,7 @@ const handleSubmit = async (event: Event) => {
       customerFirstname: "",
       customerLastname: "",
       customerMiddlename: "",
+      privacyPolicyAgreed: false,
     };
     form.pending = false;
   }

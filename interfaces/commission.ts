@@ -15,7 +15,6 @@ export default interface Commission {
   theme: string;
   pages: number;
   pwa: boolean;
-  static: boolean;
   environ: string;
   status?: Status;
   price?: number;
