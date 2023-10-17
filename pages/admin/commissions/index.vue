@@ -4,7 +4,6 @@
     class="flex flex-col w-full items-center justify-center"
   >
     <h1 class="text-3xl tracking-wider text-accent mb-6">Commissions</h1>
-    <!-- TABS Commissions -->
 
     <HeadlessTabGroup>
       <HeadlessTabList class="flex w-full justify-evenly">
@@ -134,7 +133,11 @@
 
       <HeadlessTabPanels class="w-full flex justify-center">
         <HeadlessTabPanel class="w-full md:w-4/5">
-          <VCommissionList :list="inReview" />
+          <VCommissionList
+            @change="handleChange"
+            @reject="handleReject"
+            :list="inReview"
+          />
         </HeadlessTabPanel>
         <HeadlessTabPanel>
           <VCommissionList :list="contracting" />
@@ -160,6 +163,85 @@ import { Status } from "@prisma/client";
 definePageMeta({
   layout: "admin",
 });
+
+const form = reactive({
+  data: {
+    price: 0,
+    subscription: 0,
+  },
+  error: "",
+  pending: false,
+});
+
+const handleChange = async (id: string, status: Status) => {
+  try {
+    let updatedData: { commission: Commission; customerEmail: string };
+    if (status === Status.PENDING) {
+      //Activate Form Modal
+
+      if (form.data.price <= 0 || form.data.subscription <= 0) {
+        return;
+      }
+      updatedData = await $fetch<{
+        commission: Commission;
+        customerEmail: string;
+      }>("/api/commissions", {
+        method: "PUT",
+        body: {
+          id,
+          price: form.data.price,
+          subscription: form.data.subscription,
+        },
+      });
+    } else {
+      updatedData = await $fetch<{
+        commission: Commission;
+        customerEmail: string;
+      }>("/api/commissions", {
+        method: "PUT",
+        body: {
+          id,
+          status,
+        },
+      });
+    }
+
+    if (data.value) {
+      const index = data.value.findIndex(
+        (x) => x.commission.id === updatedData.commission.id
+      );
+
+      if (!index || index < 0) return;
+
+      data.value[index].commission = updatedData.commission;
+      data.value[index].customerEmail = updatedData.customerEmail;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const handleReject = async (id: string) => {
+  try {
+    if (data.value) {
+      const updatedData = await $fetch<{
+        commission: Commission;
+        customerEmail: string;
+      }>("/api/commissions", {
+        method: "DELETE",
+        body: {
+          id,
+        },
+      });
+
+      data.value = data.value.filter(
+        (x) => x.commission.id !== updatedData.commission.id
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const { pending, data } = await useFetch<
   { commission: Commission; customerEmail: string }[]

@@ -29,14 +29,22 @@
     <div class="flex md:m-2 py-2 w-full md:w-1/3 md:justify-center">
       <button
         v-if="status === Status.SUBMITTED"
-        @click="handleAccept"
+        @click="handleChange.bind(Status.PENDING)"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
       >
         ACCEPT
       </button>
       <button
-        v-if="status === Status.SUBMITTED"
+        v-if="status === Status.PENDING"
+        @click="handleChange.bind(Status.ACCEPTED)"
+        type="button"
+        class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:bg-primary hover:text-white tracking-widest font-bold shadow-lg"
+      >
+        START PROJECT
+      </button>
+      <button
+        v-if="status === Status.SUBMITTED || status === Status.PENDING"
         @click="handleReject"
         type="button"
         class="w-full mx-2 bg-std border-2 border-error rounded-xl text-error hover:bg-error hover:text-white tracking-widest font-bold shadow-lg"
@@ -46,11 +54,20 @@
 
       <button
         v-if="status === Status.ACCEPTED"
-        @click="handleInvoicing"
+        @click="handleChange.bind(Status.INVOICING)"
+        type="button"
+        class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:bg-primary hover:text-white tracking-widest font-bold shadow-lg"
+      >
+        SEND INVOICE
+      </button>
+
+      <button
+        v-if="status === Status.INVOICING"
+        @click="handleChange.bind(Status.COMPLETED)"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
       >
-        SEND INVOICE
+        FINALIZE
       </button>
 
       <div
@@ -75,21 +92,16 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (event: "accept", id: string): void;
+  (event: "change", id: string, status: Status): void;
   (event: "reject", id: string): void;
-  (event: "invoice", id: string): void;
 }>();
 
-const handleAccept = () => {
-  emit("accept", props.id);
+const handleChange = (status: Status) => {
+  emit("change", props.id, status);
 };
 
 const handleReject = () => {
   emit("reject", props.id);
-};
-
-const handleInvoicing = () => {
-  emit("invoice", props.id);
 };
 </script>
 
