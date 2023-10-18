@@ -5,6 +5,15 @@
   >
     <h1 class="text-3xl tracking-wider text-accent mb-6">Commissions</h1>
 
+    <Teleport to="body">
+      <dialog
+        ref="pricing"
+        class="w-full md:w-2/3 bg-std shadow-2xl rounded border-2 border-primary"
+      >
+        <VModal @cancel="handleCancel" @agree="handleAgree" />
+      </dialog>
+    </Teleport>
+
     <HeadlessTabGroup>
       <HeadlessTabList class="flex w-full justify-evenly">
         <HeadlessTab as="template" v-slot="{ selected }">
@@ -139,16 +148,20 @@
             :list="inReview"
           />
         </HeadlessTabPanel>
-        <HeadlessTabPanel>
-          <VCommissionList :list="contracting" />
+        <HeadlessTabPanel class="w-full md:w-4/5">
+          <VCommissionList
+            @change="handleChange"
+            @reject="handleReject"
+            :list="contracting"
+          />
         </HeadlessTabPanel>
-        <HeadlessTabPanel>
-          <VCommissionList :list="inProgress" />
+        <HeadlessTabPanel class="w-full md:w-4/5">
+          <VCommissionList @change="handleChange" :list="inProgress" />
         </HeadlessTabPanel>
-        <HeadlessTabPanel>
-          <VCommissionList :list="invoicing" />
+        <HeadlessTabPanel class="w-full md:w-4/5">
+          <VCommissionList @change="handleChange" :list="invoicing" />
         </HeadlessTabPanel>
-        <HeadlessTabPanel>
+        <HeadlessTabPanel class="w-full md:w-4/5">
           <VCommissionList :list="completed" />
         </HeadlessTabPanel>
       </HeadlessTabPanels>
@@ -164,37 +177,60 @@ definePageMeta({
   layout: "admin",
 });
 
-const form = reactive({
-  data: {
-    price: 0,
-    subscription: 0,
-  },
-  error: "",
-  pending: false,
+const { pending, data } = await useFetch<
+  { commission: Commission; customerEmail: string }[]
+>("/api/commissions", {
+  lazy: true,
 });
+
+const pricing = ref<HTMLDialogElement | null>(null);
+const modalId = ref("");
+
+const update = (commission: Commission, email: string) => {
+  if (data.value) {
+    const index = data.value.findIndex(
+      (x) => x.commission.id === commission.id
+    );
+
+    if (!index || index < 0) {
+      return console.log("index error");
+    }
+    const updatedVal = { commission, customerEmail: email };
+    data.value[index] = updatedVal;
+  }
+};
+
+const handleAgree = async (json: string) => {
+  if (pricing.value) {
+    pricing.value.close(json);
+    const { price, subscription }: { price: number; subscription: number } =
+      JSON.parse(pricing.value.returnValue);
+    const updatedData = await $fetch<{
+      commission: Commission;
+      customerEmail: string;
+    }>("/api/commissions", {
+      method: "PUT",
+      body: {
+        id: modalId.value,
+        price,
+        subscription,
+      },
+    });
+
+    update(updatedData.commission, updatedData.customerEmail);
+  }
+};
+
+const handleCancel = () => {
+  if (pricing.value) {
+    pricing.value.close();
+  }
+};
 
 const handleChange = async (id: string, status: Status) => {
   try {
-    let updatedData: { commission: Commission; customerEmail: string };
-    if (status === Status.PENDING) {
-      //Activate Form Modal
-
-      if (form.data.price <= 0 || form.data.subscription <= 0) {
-        return;
-      }
-      updatedData = await $fetch<{
-        commission: Commission;
-        customerEmail: string;
-      }>("/api/commissions", {
-        method: "PUT",
-        body: {
-          id,
-          price: form.data.price,
-          subscription: form.data.subscription,
-        },
-      });
-    } else {
-      updatedData = await $fetch<{
+    if (status !== Status.PENDING) {
+      const updatedData = await $fetch<{
         commission: Commission;
         customerEmail: string;
       }>("/api/commissions", {
@@ -204,17 +240,15 @@ const handleChange = async (id: string, status: Status) => {
           status,
         },
       });
-    }
 
-    if (data.value) {
-      const index = data.value.findIndex(
-        (x) => x.commission.id === updatedData.commission.id
-      );
+      console.log(updatedData);
 
-      if (!index || index < 0) return;
-
-      data.value[index].commission = updatedData.commission;
-      data.value[index].customerEmail = updatedData.customerEmail;
+      update(updatedData.commission, updatedData.customerEmail);
+    } else {
+      if (pricing.value) {
+        modalId.value = id;
+        pricing.value.showModal();
+      }
     }
   } catch (error) {
     console.log(error);
@@ -243,12 +277,6 @@ const handleReject = async (id: string) => {
   }
 };
 
-const { pending, data } = await useFetch<
-  { commission: Commission; customerEmail: string }[]
->("/api/commissions", {
-  lazy: true,
-});
-
 const inReview = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
   return data.value.filter((x) => x.commission.status === Status.SUBMITTED);
@@ -275,4 +303,9 @@ const completed = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+::backdrop {
+  background-image: linear-gradient(45deg, black, gray, black, gray);
+  opacity: 0.75;
+}
+</style>

@@ -3,7 +3,9 @@ import { prisma } from "../../db.server";
 
 export default defineEventHandler(async (event) => {
   try {
+    const id = getRouterParam(event, "id");
     const comm = await prisma.commission.findFirst({
+      where: { id },
       include: { customer: { select: { email: true } } },
     });
 

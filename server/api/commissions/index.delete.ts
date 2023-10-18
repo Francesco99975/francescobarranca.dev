@@ -26,12 +26,27 @@ export default defineEventHandler(async (event) => {
       TemplateModel: {
         product_url: WEBSITE_URL,
         product_name: WEBSITE_NAME,
+        commission_title: commission.subject,
         event_detail: "Rejected",
         instructions: REJECT_INSTRUCTIONS,
       },
     });
 
-    return commission;
+    const comm: Commission = {
+      id: commission.id,
+      description: commission.description,
+      environ: commission.environment,
+      pages: commission.pages,
+      pwa: commission.pwa,
+      subject: commission.subject,
+      theme: commission.theme,
+      createdAt: commission.createdAt,
+      price: commission.price,
+      status: commission.status,
+      subscription: commission.subscription,
+      updatedAt: commission.updatedAt,
+    };
+    return { commission: comm, customerEmail: commission.customer.email };
   } catch (error) {
     console.log(error);
   } finally {

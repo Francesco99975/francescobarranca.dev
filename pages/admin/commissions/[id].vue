@@ -33,7 +33,7 @@
     </h2>
 
     <p
-      class="my-3 p-2 rounded-sm border-2 border-primary text-accent leading-8"
+      class="my-3 p-2 rounded-sm border-2 border-primary text-accent leading-8 min-w-full"
     >
       {{ data.commission.description }}
     </p>
@@ -42,7 +42,7 @@
       Theme Description
     </h2>
 
-    <div class="relative">
+    <div class="relative min-w-full">
       <p
         class="my-3 p-2 rounded-sm border-2 border-primary text-accent leading-8"
       >

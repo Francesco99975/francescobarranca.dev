@@ -29,7 +29,7 @@
     <div class="flex md:m-2 py-2 w-full md:w-1/3 md:justify-center">
       <button
         v-if="status === Status.SUBMITTED"
-        @click="handleChange.bind(Status.PENDING)"
+        @click="() => handleChange(Status.PENDING)"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
       >
@@ -37,9 +37,9 @@
       </button>
       <button
         v-if="status === Status.PENDING"
-        @click="handleChange.bind(Status.ACCEPTED)"
+        @click="() => handleChange(Status.ACCEPTED)"
         type="button"
-        class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:bg-primary hover:text-white tracking-widest font-bold shadow-lg"
+        class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:border-accent hover:text-accent tracking-widest font-bold shadow-lg"
       >
         START PROJECT
       </button>
@@ -54,16 +54,16 @@
 
       <button
         v-if="status === Status.ACCEPTED"
-        @click="handleChange.bind(Status.INVOICING)"
+        @click="() => handleChange(Status.INVOICING)"
         type="button"
-        class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:bg-primary hover:text-white tracking-widest font-bold shadow-lg"
+        class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:border-accent hover:text-accent tracking-widest font-bold shadow-lg"
       >
         SEND INVOICE
       </button>
 
       <button
         v-if="status === Status.INVOICING"
-        @click="handleChange.bind(Status.COMPLETED)"
+        @click="() => handleChange(Status.COMPLETED)"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
       >
@@ -72,7 +72,7 @@
 
       <div
         v-if="status === Status.COMPLETED"
-        class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success tracking-widest font-bold shadow-lg"
+        class="w-full flex justify-center items-center mx-2 bg-std border-2 border-success rounded-xl text-success tracking-widest font-bold shadow-lg"
       >
         COMPLETED
       </div>

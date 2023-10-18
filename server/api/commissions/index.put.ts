@@ -12,6 +12,7 @@ import {
   WEBSITE_URL,
   WORK_IN_PROGRESS_NOTIF,
 } from "../../constants.server";
+import Commission from "../../../interfaces/commission";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -53,6 +54,7 @@ export default defineEventHandler(async (event) => {
           TemplateModel: {
             product_url: WEBSITE_URL,
             product_name: WEBSITE_NAME,
+            commission_title: commission.subject,
             event_detail: "Accepted",
             instructions: ACCEPT_INSTRUCTIONS,
           },
@@ -66,6 +68,7 @@ export default defineEventHandler(async (event) => {
           TemplateModel: {
             product_url: WEBSITE_URL,
             product_name: WEBSITE_NAME,
+            commission_title: commission.subject,
             event_detail: "in the works!",
             instructions: WORK_IN_PROGRESS_NOTIF,
           },
@@ -79,6 +82,7 @@ export default defineEventHandler(async (event) => {
           TemplateModel: {
             product_url: WEBSITE_URL,
             product_name: WEBSITE_NAME,
+            commission_title: commission.subject,
             event_detail: "awaiting a payment",
             instructions: INVOICING_INSTRUCTIONS,
           },
@@ -92,13 +96,29 @@ export default defineEventHandler(async (event) => {
           TemplateModel: {
             product_url: WEBSITE_URL,
             product_name: WEBSITE_NAME,
+            commission_title: commission.subject,
             event_detail: "completed and finalized!",
             instructions: COMPLETED_INSTRUCTIONS,
           },
         });
         break;
     }
-    return commission;
+
+    const comm: Commission = {
+      id: commission.id,
+      description: commission.description,
+      environ: commission.environment,
+      pages: commission.pages,
+      pwa: commission.pwa,
+      subject: commission.subject,
+      theme: commission.theme,
+      createdAt: commission.createdAt,
+      price: commission.price,
+      status: commission.status,
+      subscription: commission.subscription,
+      updatedAt: commission.updatedAt,
+    };
+    return { commission: comm, customerEmail: commission.customer.email };
   } catch (error) {
     console.log(error);
   } finally {

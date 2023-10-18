@@ -27,17 +27,13 @@ export default defineEventHandler(async (event) => {
           lastname: data.customer.lastname,
           middlename: data.customer.middlename || undefined,
           commissions: {
-            createMany: {
-              data: [
-                {
-                  subject: data.commission.subject,
-                  description: data.commission.description,
-                  theme: data.commission.theme,
-                  pages: data.commission.pages,
-                  pwa: data.commission.pwa,
-                  environment: data.commission.environ,
-                },
-              ],
+            create: {
+              subject: data.commission.subject,
+              description: data.commission.description,
+              theme: data.commission.theme,
+              pages: data.commission.pages,
+              pwa: data.commission.pwa,
+              environment: data.commission.environ,
             },
           },
         },
@@ -47,18 +43,13 @@ export default defineEventHandler(async (event) => {
         where: { email: data.customer.email },
         data: {
           commissions: {
-            createMany: {
-              data: [
-                ...existingCustomer.commissions,
-                {
-                  subject: data.commission.subject,
-                  description: data.commission.description,
-                  theme: data.commission.theme,
-                  pages: data.commission.pages,
-                  pwa: data.commission.pwa,
-                  environment: data.commission.environ,
-                },
-              ],
+            create: {
+              subject: data.commission.subject,
+              description: data.commission.description,
+              theme: data.commission.theme,
+              pages: data.commission.pages,
+              pwa: data.commission.pwa,
+              environment: data.commission.environ,
             },
           },
         },
