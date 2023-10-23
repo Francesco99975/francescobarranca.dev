@@ -212,8 +212,8 @@ const handleAgree = async (json: string) => {
       method: "PUT",
       body: {
         id: modalId.value,
-        price,
-        subscription,
+        price: adaptCurrency(price),
+        subscription: adaptCurrency(subscription),
       },
     });
 
@@ -301,6 +301,16 @@ const completed = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
   return data.value.filter((x) => x.commission.status === Status.COMPLETED);
 });
+
+function adaptCurrency(currency: number): number {
+  const stringValue = currency.toString();
+
+  if (stringValue.includes(".")) {
+    return +stringValue.replace(".", "");
+  } else {
+    return +stringValue * 100;
+  }
+}
 </script>
 
 <style scoped>

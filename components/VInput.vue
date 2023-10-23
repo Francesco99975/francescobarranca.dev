@@ -5,6 +5,7 @@
       :type="type"
       :name="name"
       :id="name"
+      :step="type === 'number' ? '.01' : ''"
       :min="type === 'number' && min"
       :max="type === 'number' && max"
       v-model="value"
