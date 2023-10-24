@@ -102,8 +102,8 @@
             name="middlename"
             label="Your Middle Name (if applicable)"
             type="text"
-            :value="form.data.customerMiddlename"
-            @update:value="(val: string) => form.data.customerMiddlename = val"
+            :value="form.optional.customerMiddlename"
+            @update:value="(val: string) => form.optional.customerMiddlename = val"
             class="w-full md:w-3/4"
           />
 
@@ -235,10 +235,13 @@ const form = reactive({
     pages: 0,
     customerEmail: "",
     customerFirstname: "",
-    customerMiddlename: "",
+
     customerLastname: "",
     customerAddress: "",
     privacyPolicyAgreed: false,
+  },
+  optional: {
+    customerMiddlename: "",
   },
   error: "",
   pending: false,
@@ -272,7 +275,7 @@ const handleSubmit = async (event: Event) => {
     const customer: Customer = {
       email: form.data.customerEmail,
       firstname: form.data.customerFirstname,
-      middlename: form.data.customerMiddlename,
+      middlename: form.optional.customerMiddlename,
       lastname: form.data.customerLastname,
       address: form.data.customerAddress,
     };
@@ -297,9 +300,9 @@ const handleSubmit = async (event: Event) => {
       customerAddress: "",
       customerFirstname: "",
       customerLastname: "",
-      customerMiddlename: "",
       privacyPolicyAgreed: false,
     };
+    form.optional = { customerMiddlename: "" };
     form.pending = false;
   }
 };

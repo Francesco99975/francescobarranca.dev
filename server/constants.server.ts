@@ -3,6 +3,7 @@ export const WEBSITE_NAME = "francescobarranca.dev";
 export const WEBSITE_EMAIL = "kalairendev@francescobarranca.dev";
 export const COMM_RES = "comm_res";
 export const COMM_PRG = "comm_prg";
+export const COMM_CTR = "comm_ctr";
 export const REJECT_INSTRUCTIONS =
   "Unfortunately we cannot fulfill your request at this time. I hope that you are willing to give us another chance in the future";
 export const ACCEPT_INSTRUCTIONS =

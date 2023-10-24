@@ -38,6 +38,7 @@
     "formidable": "^3.5.1",
     "handlebars": "^4.7.8",
     "muhammara": "^4.0.0",
+    "pdf-merger-js": "^4.3.0",
     "pdfkit": "^0.13.0",
     "postmark": "^3.1.1",
     "puppeteer": "^21.4.0",

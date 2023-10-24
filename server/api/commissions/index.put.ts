@@ -3,6 +3,7 @@ import { prisma } from "../../db.server";
 import { ServerClient } from "postmark";
 import {
   ACCEPT_INSTRUCTIONS,
+  COMM_CTR,
   COMM_PRG,
   COMM_RES,
   COMPLETED_INSTRUCTIONS,
@@ -17,6 +18,7 @@ import * as fs from "fs/promises";
 import handlebars from "handlebars";
 import puppeteer from "puppeteer";
 import path from "path";
+import PDFMerger from "pdf-merger-js";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -26,33 +28,63 @@ export default defineEventHandler(async (event) => {
       subscription?: number;
       status?: Status;
     }>(event);
+
     let commission;
+    const client = new ServerClient(process.env.POSTMARK_API_KEY!);
+
     if (data.price) {
       commission = await prisma.commission.update({
         where: { id: data.id },
         include: { customer: true },
         data: {
-          price: data.price,
-          subscription: data.subscription,
+          price: data.price * 100,
+          subscription: data.subscription ? data.subscription * 100 : 0,
           status: Status.PENDING,
         },
       });
 
       const fullName =
-        commission.customer.firstname + commission.customer.middlename !==
-          null &&
+        commission.customer.firstname +
+        " " +
+        (commission.customer.middlename !== null &&
         commission.customer.middlename &&
         commission.customer.middlename.length > 0
           ? commission.customer.middlename + " " + commission.customer.lastname
-          : commission.customer.lastname;
+          : commission.customer.lastname);
 
-      generateContract(
+      const contract_path: string = await generateContract(
         commission.id,
         fullName,
         commission.customer.address,
         commission.price / 100,
-        commission.subscription / 100
+        commission.subscription / 100,
+        commission.subject,
+        commission.description,
+        commission.theme,
+        commission.pwa
       );
+
+      client
+        .sendEmailWithTemplate({
+          From: WEBSITE_EMAIL,
+          To: WEBSITE_EMAIL,
+          TemplateAlias: COMM_CTR,
+          TemplateModel: {
+            product_url: WEBSITE_URL,
+            product_name: WEBSITE_NAME,
+            comm_id: commission.id,
+            comm_name: commission.subject,
+          },
+          Attachments: [
+            {
+              Name: contract_path,
+              Content: (await fs.readFile(contract_path)).toString("base64"),
+              ContentType: "application/pdf",
+              ContentID: commission.id,
+            },
+          ],
+        })
+        .finally(() => fs.unlink(contract_path));
     } else {
       commission = await prisma.commission.update({
         where: { id: data.id },
@@ -62,8 +94,6 @@ export default defineEventHandler(async (event) => {
         },
       });
     }
-
-    const client = new ServerClient(process.env.POSTMARK_API_KEY!);
 
     switch (commission.status) {
       case Status.PENDING:
@@ -152,31 +182,103 @@ async function generateContract(
   clientFullName: string,
   clientAddress: string,
   price: number,
-  subscription: number
-) {
+  subscription: number,
+  comm_name: string,
+  comm_desc: string,
+  comm_theme: string,
+  comm_pwa: boolean
+): Promise<string> {
   try {
-    const web_contract_source = await fs.readFile(
-      path.resolve("server/templates_pdf/web_contract.hbs"),
+    const web_contract_source_1 = await fs.readFile(
+      path.resolve("server/templates_pdf/web/web_contract_1.hbs"),
+      "utf-8"
+    );
+    const web_contract_source_2 = await fs.readFile(
+      path.resolve("server/templates_pdf/web/web_contract_2.hbs"),
+      "utf-8"
+    );
+    const web_contract_source_3 = await fs.readFile(
+      path.resolve("server/templates_pdf/web/web_contract_3.hbs"),
+      "utf-8"
+    );
+    const web_contract_source_4 = await fs.readFile(
+      path.resolve("server/templates_pdf/web/web_contract_4.hbs"),
+      "utf-8"
+    );
+    const web_contract_source_5 = await fs.readFile(
+      path.resolve("server/templates_pdf/web/web_contract_5.hbs"),
+      "utf-8"
+    );
+    const exhibit_a_source = await fs.readFile(
+      path.resolve("server/templates_pdf/web/exhibit_a.hbs"),
       "utf-8"
     );
 
-    const web_contract_template = handlebars.compile(web_contract_source);
-
-    const web_contract = web_contract_template({
+    const web_contract_template_1 = handlebars.compile(web_contract_source_1);
+    const web_contract_template_2 = handlebars.compile(web_contract_source_2);
+    const web_contract_template_3 = handlebars.compile(web_contract_source_3);
+    const web_contract_template_4 = handlebars.compile(web_contract_source_4);
+    const web_contract_template_5 = handlebars.compile(web_contract_source_5);
+    const exhibit_a_template = handlebars.compile(exhibit_a_source);
+    const numberFormatter = new Intl.NumberFormat("en-CA", {
+      style: "currency",
+      currency: "CAD",
+    });
+    const web_contract_1 = web_contract_template_1({
       dev_name: process.env.DEV_NAME || "DEV",
       dev_address: process.env.DEV_ADDRESS || "DEV ADRRS",
       client_name: clientFullName,
       client_address: clientAddress,
-      purchase_price: price.toFixed(2),
-      subscription_price: subscription.toFixed(2),
+      purchase_price: numberFormatter.format(price),
+      subscription_price: numberFormatter.format(subscription),
+      project_name: comm_name,
+    });
+    const web_contract_2 = web_contract_template_2({ project_name: comm_name });
+    const web_contract_3 = web_contract_template_3({ project_name: comm_name });
+    const web_contract_4 = web_contract_template_4({
+      project_name: comm_name,
+      client_name: clientFullName,
+      client_address: clientAddress,
+    });
+    const web_contract_5 = web_contract_template_5({ project_name: comm_name });
+    const exhibit_a = exhibit_a_template({
+      project_name: comm_name,
+      features_description: comm_desc,
+      theme_description: comm_theme,
+      pwa: comm_pwa,
     });
 
+    const html_files = [
+      web_contract_1,
+      web_contract_2,
+      web_contract_3,
+      web_contract_4,
+      web_contract_5,
+      exhibit_a,
+    ];
+    const merger = new PDFMerger();
     const browser = await puppeteer.launch({ headless: "new" });
-    const page = await browser.newPage();
-    await page.setContent(web_contract);
-    await page.pdf({ path: `web_contract_${comm_id}.pdf`, format: "LEGAL" });
+    for (let index = 0; index < html_files.length; index++) {
+      const pathTmp = `web_tmp_${index + 1}_${comm_id}.pdf`;
+      const page = await browser.newPage();
+      await page.setContent(html_files[index]);
+      await page.pdf({
+        path: pathTmp,
+        format: "LEGAL",
+      });
+      await merger.add(pathTmp);
+    }
     await browser.close();
+    const contract_path = `web_contract_${comm_id}.pdf`;
+    await merger.save(contract_path);
+    for (let index = 0; index < html_files.length; index++) {
+      const pathTmp = `web_tmp_${index + 1}_${comm_id}.pdf`;
+      fs.unlink(pathTmp);
+    }
+
+    return contract_path;
   } catch (error) {
     console.log(error);
+    return "";
   }
 }
