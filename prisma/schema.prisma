@@ -93,7 +93,6 @@ model Commission {
   subject      String
   description  String
   theme        String
-  pages        Int
   pwa          Boolean
   environment  String
   status       Status   @default(SUBMITTED)

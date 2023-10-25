@@ -67,17 +67,6 @@
           </HeadlessSwitch>
         </div>
 
-        <VInput
-          name="pages"
-          label="How many pages/screens does you app/website need?"
-          type="number"
-          :value="form.data.pages"
-          :min="0"
-          :max="10"
-          @update:value="(val: number) => form.data.pages = val"
-          class="w-2/3 md:w-1/3"
-        />
-
         <div class="flex flex-col w-full justify-center items-center mt-8">
           <h2 class="text-lg text-center text-accent font-bold">Client Info</h2>
           <VInput
@@ -232,10 +221,8 @@ const form = reactive({
     subject: "",
     description: "",
     theme: "",
-    pages: 0,
     customerEmail: "",
     customerFirstname: "",
-
     customerLastname: "",
     customerAddress: "",
     privacyPolicyAgreed: false,
@@ -257,7 +244,7 @@ const handleSubmit = async (event: Event) => {
     if (
       Object.values(form.data)
         .filter((x) => typeof x === "string")
-        .some((x) => x.toString().trim().length <= 0 || form.data.pages <= 0)
+        .some((x) => x.toString().trim().length <= 0)
     ) {
       form.error = "Invalid Data";
       return;
@@ -266,7 +253,6 @@ const handleSubmit = async (event: Event) => {
     const commission: Commission = {
       subject: form.data.subject,
       description: form.data.description,
-      pages: form.data.pages,
       theme: form.data.theme,
       environ: chosenEnv.value,
       pwa: pwa.value,
@@ -295,7 +281,7 @@ const handleSubmit = async (event: Event) => {
       subject: "",
       description: "",
       theme: "",
-      pages: 0,
+
       customerEmail: "",
       customerAddress: "",
       customerFirstname: "",

@@ -159,7 +159,6 @@ export default defineEventHandler(async (event) => {
       id: commission.id,
       description: commission.description,
       environ: commission.environment,
-      pages: commission.pages,
       pwa: commission.pwa,
       subject: commission.subject,
       theme: commission.theme,

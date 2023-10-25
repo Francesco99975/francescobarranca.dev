@@ -42,16 +42,12 @@
       Theme Description
     </h2>
 
-    <div class="relative min-w-full">
+    <div class="min-w-full">
       <p
         class="my-3 p-2 rounded-sm border-2 border-primary text-accent leading-8"
       >
         {{ data.commission.theme }}
       </p>
-      <span
-        class="absolute bottom-0 right-0 text-lg p-2 rounded text-center text-std bg-accent font-bold"
-        >{{ data.commission.pages }} Pages</span
-      >
     </div>
   </main>
 </template>

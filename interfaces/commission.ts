@@ -13,7 +13,6 @@ export default interface Commission {
   subject: string;
   description: string;
   theme: string;
-  pages: number;
   pwa: boolean;
   environ: string;
   status?: Status;
