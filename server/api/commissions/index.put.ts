@@ -61,7 +61,8 @@ export default defineEventHandler(async (event) => {
         commission.subject,
         commission.description,
         commission.theme,
-        commission.pwa
+        commission.pwa,
+        commission.environment
       );
 
       client
@@ -185,45 +186,67 @@ async function generateContract(
   comm_name: string,
   comm_desc: string,
   comm_theme: string,
-  comm_pwa: boolean
+  comm_pwa: boolean,
+  comm_type: string
 ): Promise<string> {
   try {
-    const web_contract_source_1 = await fs.readFile(
-      path.resolve("server/templates_pdf/web/web_contract_1.hbs"),
+    const BASE_PATH = "server/templates_pdf";
+
+    let contractDir = "";
+    let contractTitle = "";
+
+    if (comm_type.toLowerCase().includes("web")) {
+      contractDir = "web";
+      contractTitle = "PURCHASE AGREEMENT FOR WEBSITE DESIGN & DEVELOPMENT";
+    } else if (comm_type.toLowerCase().includes("mobile")) {
+      contractDir = "mobile";
+      contractTitle =
+        "PURCHASE AGREEMENT FOR MOBILE APPICATION DESIGN & DEVELOPMENT";
+    } else if (comm_type.toLowerCase().includes("desktop")) {
+      contractDir = "desktop";
+      contractTitle =
+        "PURCHASE AGREEMENT FOR DESKTOP APPICATION DESIGN & DEVELOPMENT";
+    } else if (comm_type.toLowerCase().includes("cli")) {
+      contractDir = "cli";
+      contractTitle = "CLI APPLICATION PURCHASE AGREEMENT";
+    } else return "";
+
+    const contract_source_1 = await fs.readFile(
+      path.resolve(`${BASE_PATH}/${contractDir}/contract_1.hbs`),
       "utf-8"
     );
-    const web_contract_source_2 = await fs.readFile(
-      path.resolve("server/templates_pdf/web/web_contract_2.hbs"),
+    const contract_source_2 = await fs.readFile(
+      path.resolve(`${BASE_PATH}/${contractDir}/contract_2.hbs`),
       "utf-8"
     );
-    const web_contract_source_3 = await fs.readFile(
-      path.resolve("server/templates_pdf/web/web_contract_3.hbs"),
+    const contract_source_3 = await fs.readFile(
+      path.resolve(`${BASE_PATH}/${contractDir}/contract_3.hbs`),
       "utf-8"
     );
-    const web_contract_source_4 = await fs.readFile(
-      path.resolve("server/templates_pdf/web/web_contract_4.hbs"),
+    const sign_source = await fs.readFile(
+      path.resolve(`${BASE_PATH}/sign.hbs`),
       "utf-8"
     );
-    const web_contract_source_5 = await fs.readFile(
-      path.resolve("server/templates_pdf/web/web_contract_5.hbs"),
+    const contract_end_source = await fs.readFile(
+      path.resolve(`${BASE_PATH}/contract_end.hbs`),
       "utf-8"
     );
     const exhibit_a_source = await fs.readFile(
-      path.resolve("server/templates_pdf/web/exhibit_a.hbs"),
+      path.resolve(`${BASE_PATH}/exhibit_a.hbs`),
       "utf-8"
     );
 
-    const web_contract_template_1 = handlebars.compile(web_contract_source_1);
-    const web_contract_template_2 = handlebars.compile(web_contract_source_2);
-    const web_contract_template_3 = handlebars.compile(web_contract_source_3);
-    const web_contract_template_4 = handlebars.compile(web_contract_source_4);
-    const web_contract_template_5 = handlebars.compile(web_contract_source_5);
+    const contract_template_1 = handlebars.compile(contract_source_1);
+    const contract_template_2 = handlebars.compile(contract_source_2);
+    const contract_template_3 = handlebars.compile(contract_source_3);
+    const sign_template = handlebars.compile(sign_source);
+    const contract_end_template = handlebars.compile(contract_end_source);
     const exhibit_a_template = handlebars.compile(exhibit_a_source);
     const numberFormatter = new Intl.NumberFormat("en-CA", {
       style: "currency",
       currency: "CAD",
     });
-    const web_contract_1 = web_contract_template_1({
+    const contract_1 = contract_template_1({
       dev_name: process.env.DEV_NAME || "DEV",
       dev_address: process.env.DEV_ADDRESS || "DEV ADRRS",
       client_name: clientFullName,
@@ -231,28 +254,37 @@ async function generateContract(
       purchase_price: numberFormatter.format(price),
       subscription_price: numberFormatter.format(subscription),
       project_name: comm_name,
+      title: contractTitle,
     });
-    const web_contract_2 = web_contract_template_2({ project_name: comm_name });
-    const web_contract_3 = web_contract_template_3({ project_name: comm_name });
-    const web_contract_4 = web_contract_template_4({
+    const contract_2 = contract_template_2({
+      project_name: comm_name,
+      title: contractTitle,
+    });
+    const contract_3 = contract_template_3({
+      project_name: comm_name,
+      title: contractTitle,
+    });
+    const sign = sign_template({
       project_name: comm_name,
       client_name: clientFullName,
       client_address: clientAddress,
+      title: contractTitle,
     });
-    const web_contract_5 = web_contract_template_5({ project_name: comm_name });
+    const contract_end = contract_end_template({ project_name: comm_name });
     const exhibit_a = exhibit_a_template({
       project_name: comm_name,
       features_description: comm_desc,
       theme_description: comm_theme,
       pwa: comm_pwa,
+      project_type: comm_type,
     });
 
     const html_files = [
-      web_contract_1,
-      web_contract_2,
-      web_contract_3,
-      web_contract_4,
-      web_contract_5,
+      contract_1,
+      contract_2,
+      contract_3,
+      sign,
+      contract_end,
       exhibit_a,
     ];
     const merger = new PDFMerger();
