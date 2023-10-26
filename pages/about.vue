@@ -28,15 +28,32 @@
       for excellence in every project I undertake, ensuring timely delivery and
       unwavering commitment to quality.
     </p>
+
+    <h2
+      class="underline-offset-8 underline text-accent text-xl md:text-3xl text-center py-3 mb-5 mt-8"
+    >
+      Support my Projects
+    </h2>
+
+    <section
+      class="py-2 flex flex-col md:flex-row justify-evenly items-center w-full"
+    >
+      <VPayPalDonate />
+
+      <VCryptoDonate
+        title="Monero XMR"
+        qr-code-url="/images/monero.webp"
+        address="46PYvx4kDBgBUwPDQhRKXSetbHAQx8oNmdY6xWL7cPKpfnwrFuYVPNoTf24MDKLWFrWVnUw6dcnGVXbgkUHAyXcHNjbGb9F"
+      />
+      <VCryptoDonate
+        title="Bitcoin BTC"
+        qr-code-url="/images/bitcoin.webp"
+        address="bc1qkh2g2qqeqx5xp7duy4vcndtf4qktueaaqyhqh0"
+      />
+    </section>
   </main>
 </template>
 
-<script setup lang="ts">
-// const { $io } = useNuxtApp();
-
-// onMounted(() => {
-//   $io.emit("view");
-// });
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>
