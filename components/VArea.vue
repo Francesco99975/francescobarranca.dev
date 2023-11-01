@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["name", "label", "value"]);
+const props = defineProps<{ name: string; label: string; value: string }>();
 
 const emit = defineEmits(["update:value"]);
 
