@@ -97,6 +97,17 @@
 </template>
 
 <script setup lang="ts">
+useSeoMeta({
+  author: "Francesco Michele Barranca",
+  keywords:
+    "websites, portfolio, coding, programming, cli, apps, mobile, commission",
+  robots: "index, follow",
+  ogType: "website",
+  ogUrl: "https://francescobarranca.dev",
+  ogImage: "https://francescobarranca.dev/full.webp",
+  twitterImage: "https://francescobarranca.dev/full.webp",
+});
+
 let showMenu = ref(false);
 const toggleNav = () => (showMenu.value = !showMenu.value);
 </script>

@@ -224,7 +224,13 @@
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useSeoMeta({
+  title: "Privacy Policy | FMB.DEV",
+  ogTitle: "Privacy Policy | FMB.DEV",
+  twitterTitle: "Privacy Policy | FMB.DEV",
+});
+</script>
 
 <style scoped>
 h2 {

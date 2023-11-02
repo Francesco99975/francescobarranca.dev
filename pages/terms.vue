@@ -296,7 +296,13 @@
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useSeoMeta({
+  title: "Terms & Conditions| FMB.DEV",
+  ogTitle: "Terms & Conditions| FMB.DEV",
+  twitterTitle: "Terms & Conditions| FMB.DEV",
+});
+</script>
 
 <style scoped>
 h2 {

@@ -34,6 +34,20 @@
 <script setup lang="ts">
 import Skill from "interfaces/skill";
 
+useSeoMeta({
+  title: "Skills | FMB.DEV",
+  description:
+    "Unlock a treasure trove of skills and expertise in my portfolio. Explore a wide range of talents and proficiencies, each a testament to innovation and versatility. Get inspired and imagine how these skills can enhance your projects and ideas.",
+
+  ogTitle: "Skills | FMB.DEV",
+  ogDescription:
+    "Unlock a treasure trove of skills and expertise in my portfolio. Explore a wide range of talents and proficiencies, each a testament to innovation and versatility. Get inspired and imagine how these skills can enhance your projects and ideas.",
+
+  twitterTitle: "Skills | FMB.DEV",
+  twitterDescription:
+    "Unlock a treasure trove of skills and expertise in my portfolio. Explore a wide range of talents and proficiencies, each a testament to innovation and versatility. Get inspired and imagine how these skills can enhance your projects and ideas.",
+});
+
 const { pending, data: skills } = await useFetch<Skill[]>("/api/skills", {
   lazy: true,
 });

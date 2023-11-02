@@ -54,6 +54,12 @@
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useSeoMeta({
+  title: "About | FMB.DEV",
+  ogTitle: "About | FMB.DEV",
+  twitterTitle: "About | FMB.DEV",
+});
+</script>
 
 <style scoped></style>

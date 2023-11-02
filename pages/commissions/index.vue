@@ -196,6 +196,20 @@
 import Commission from "interfaces/commission";
 import { Customer } from "interfaces/customer";
 
+useSeoMeta({
+  title: "Send a Commission | FMB.DEV",
+  description:
+    "Ready to bring your vision to life? Commission your project today! Our streamlined form makes it easy to share your project details and take the first step towards a unique online presence.",
+
+  ogTitle: "Send a Commission | FMB.DEV",
+  ogDescription:
+    "Ready to bring your vision to life? Commission your project today! Our streamlined form makes it easy to share your project details and take the first step towards a unique online presence.",
+
+  twitterTitle: "Send a Commission | FMB.DEV",
+  twitterDescription:
+    "Ready to bring your vision to life? Commission your project today! Our streamlined form makes it easy to share your project details and take the first step towards a unique online presence.",
+});
+
 const environs = ref<{ name: string; value: boolean }[]>([
   { name: "CLI App", value: false },
   { name: "Website", value: false },
