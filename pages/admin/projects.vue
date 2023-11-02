@@ -50,8 +50,10 @@
           Skill used in this project
         </h3>
 
+        <p v-if="pending" class="text-primary italic">Loading Projects...</p>
+
         <VMultiCheck
-          v-if="skills && skills.length > 0"
+          v-if="skills && skills.length > 0 && !pending"
           :options="
             skills!.map((skill) => {
               return {
@@ -130,7 +132,7 @@
     <DynSep />
 
     <section class="flex flex-col w-full justify-center items-center">
-      <p v-if="pending">Loading...</p>
+      <p class="text-primary italic" v-if="prjPending">Loading...</p>
 
       <h3
         v-else-if="!skills || skills.length <= 0"

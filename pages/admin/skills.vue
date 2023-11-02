@@ -22,8 +22,10 @@
           @update:value="(val: string) => form.data.skillName = val"
         />
 
+        <p v-if="prjPending" class="text-primary italic">Loading Projects...</p>
+
         <VMultiCheck
-          v-if="projects && projects.length > 0"
+          v-if="projects && projects.length > 0 && !prjPending"
           :options="
             projects!.map((prj) => {
               return {
@@ -58,7 +60,7 @@
     <DynSep />
 
     <section class="flex flex-col w-full justify-center items-center">
-      <p v-if="pending">Loading...</p>
+      <p class="text-primary italic" v-if="pending">Loading...</p>
 
       <h3
         v-else-if="!skills || skills.length <= 0"

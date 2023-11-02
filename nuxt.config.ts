@@ -7,11 +7,17 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "nuxt-headlessui",
     "@nuxt/image",
+    "nuxt-snackbar",
     // "@nuxtjs/web-vitals",
   ],
   ignore: ["postgres"],
   image: {
     screen: {},
+  },
+  snackbar: {
+    bottom: true,
+    right: true,
+    duration: 5000,
   },
   colorMode: {
     classSuffix: "",

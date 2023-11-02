@@ -89,6 +89,10 @@ const platforms: Platform[] = [
     name: "Language",
     subtype: "",
   },
+  {
+    name: "Tools",
+    subtype: "",
+  },
 ];
 
 const selected = ref(platforms[0]);

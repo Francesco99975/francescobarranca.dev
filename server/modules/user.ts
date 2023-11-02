@@ -1,4 +1,4 @@
-import { Result, failure, success } from "../../interfaces/Result";
+import { Result, failure, success } from "../../interfaces/result";
 import Admin from "../../interfaces/admin";
 import { ServerError } from "../../interfaces/serverError";
 import { prisma } from "../db.server";

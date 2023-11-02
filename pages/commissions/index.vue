@@ -165,6 +165,10 @@
           </HeadlessSwitch>
         </div>
 
+        <p class="text-white bg-error p-2 rounded my-2" v-if="form.error">
+          {{ form.error }}
+        </p>
+
         <button
           type="submit"
           :class="form.pending && 'cursor-wait'"
@@ -195,9 +199,9 @@ import { Customer } from "interfaces/customer";
 const environs = ref<{ name: string; value: boolean }[]>([
   { name: "CLI App", value: false },
   { name: "Website", value: false },
-  { name: "Mobile App (Android)", value: false },
-  { name: "Mobile App (iOS)", value: false },
-  { name: "Desktop App", value: false },
+  // { name: "Mobile App (Android)", value: false },
+  // { name: "Mobile App (iOS)", value: false },
+  // { name: "Desktop App", value: false },
 ]);
 
 const chosenEnv = ref<string>("");
@@ -241,12 +245,18 @@ const handleSubmit = async (event: Event) => {
     form.pending = true;
     form.error = "";
 
+    if (!form.data.privacyPolicyAgreed) {
+      form.error =
+        "Please read and agree to the Privacy Policy and Terms and Conditions";
+      return;
+    }
+
     if (
       Object.values(form.data)
         .filter((x) => typeof x === "string")
         .some((x) => x.toString().trim().length <= 0)
     ) {
-      form.error = "Invalid Data";
+      form.error = "Invalid or incomplete information";
       return;
     }
 
@@ -273,6 +283,11 @@ const handleSubmit = async (event: Event) => {
         customer,
         privacyPolicyAgreed: form.data.privacyPolicyAgreed,
       },
+    });
+
+    navigateTo({
+      path: "/commissions/confirmation",
+      replace: true,
     });
   } catch (error) {
     form.error = "Something Went wrong";

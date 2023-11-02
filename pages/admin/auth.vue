@@ -1,7 +1,7 @@
 <template>
   <main class="flex flex-col w-full items-center justify-center h-[80vh]">
     <h1 class="text-3xl md:text-6xl text-primary my-5">Admin Login</h1>
-    <p v-if="form.error" class="my-3 text-std bg-error rounded shadow-md p-2">
+    <p v-if="form.error" class="my-3 text-white bg-error rounded shadow-md p-2">
       {{ form.error }}
     </p>
 
@@ -65,9 +65,9 @@ const handleSubmit = async () => {
     await login(form.data.username, form.data.password, form.data.me);
     await navigateTo("/admin", { replace: true });
   } catch (error: any) {
-    console.error(error);
-
-    if (error.data.message) form.error = error.data.message;
+    if (error.data.message) {
+      form.error = error.data.message;
+    }
   } finally {
     form.pending = false;
   }
