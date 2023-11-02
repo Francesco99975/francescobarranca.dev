@@ -14,6 +14,9 @@ export default defineNuxtConfig({
     "nuxt-headlessui",
     "@nuxt/image",
     "nuxt-snackbar",
+    "nuxt-jsonld",
+    "nuxt-simple-sitemap",
+
     // "@nuxtjs/web-vitals",
   ],
   ignore: ["postgres"],

@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import Commission from "interfaces/commission";
+import type Commission from "~/interfaces/commission";
 
 definePageMeta({
   layout: "admin",

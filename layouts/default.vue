@@ -97,6 +97,18 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  htmlAttrs: { lang: "en" },
+  link: [
+    {
+      rel: "icon",
+      type: "image/ico",
+      sizes: "16x16",
+      href: "/favicon.ico",
+    },
+    { rel: "canonical", href: "https://francescobarranca.dev" },
+  ],
+});
 useSeoMeta({
   author: "Francesco Michele Barranca",
   keywords:
@@ -104,8 +116,22 @@ useSeoMeta({
   robots: "index, follow",
   ogType: "website",
   ogUrl: "https://francescobarranca.dev",
+  ogLocale: "en_CA",
   ogImage: "https://francescobarranca.dev/full.webp",
   twitterImage: "https://francescobarranca.dev/full.webp",
+});
+useJsonld({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "FMB.DEV",
+  url: "https://francescobarranca.dev",
+  mainEntity: [
+    {
+      "@type": "ContactPoint",
+      email: "kalairendev@francescobarranca.dev",
+      contactType: "kalairendev",
+    },
+  ],
 });
 
 let showMenu = ref(false);

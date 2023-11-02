@@ -159,8 +159,8 @@
 </template>
 
 <script setup lang="ts">
-import Skill from "~/interfaces/skill";
-import Project from "~/interfaces/project";
+import type Project from "~/interfaces/project";
+import type Skill from "~/interfaces/skill";
 
 definePageMeta({
   layout: "admin",

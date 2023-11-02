@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import Platform from "~/interfaces/platform";
+import type Platform from "~/interfaces/platform";
 
 const emits = defineEmits(["platform"]);
 

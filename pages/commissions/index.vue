@@ -193,8 +193,8 @@
 </template>
 
 <script setup lang="ts">
-import Commission from "interfaces/commission";
-import { Customer } from "interfaces/customer";
+import type Commission from "~/interfaces/commission";
+import type { Customer } from "~/interfaces/customer";
 
 useSeoMeta({
   title: "Send a Commission | FMB.DEV",

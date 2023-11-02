@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import Project from "../interfaces/project";
+import type Project from "~/interfaces/project";
 
 const BASE_IMG_URL = "http://localhost:8888";
 const slideDuration = 5000;

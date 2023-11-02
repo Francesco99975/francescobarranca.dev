@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { Status } from "@prisma/client";
-import Commission from "interfaces/commission";
+import type Commission from "~/interfaces/commission";
 
 const props = defineProps<{
   list: { commission: Commission; customerEmail: string }[];

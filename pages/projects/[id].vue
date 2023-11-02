@@ -76,7 +76,8 @@
 </template>
 
 <script setup lang="ts">
-import Project from "interfaces/project";
+import type Project from "~/interfaces/project";
+
 const route = useRoute();
 const { pending, data: project } = await useFetch<Project>(
   `/api/projects/${route.params.id}`,

@@ -170,8 +170,8 @@
 </template>
 
 <script setup lang="ts">
-import Commission from "interfaces/commission";
 import { Status } from "@prisma/client";
+import type Commission from "~/interfaces/commission";
 
 definePageMeta({
   layout: "admin",

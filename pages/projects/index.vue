@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import Project from "interfaces/project";
+import type Project from "~/interfaces/project";
 
 useSeoMeta({
   title: "Projects | FMB.DEV",

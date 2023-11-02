@@ -104,7 +104,7 @@
 import {
   DateFilter,
   MTD,
-  RawDataset,
+  type RawDataset,
   YTD,
   allTime,
   last12Months,
@@ -114,7 +114,7 @@ import {
   realtime,
   today,
 } from "~/interfaces/dataset.client";
-import Visit from "~/interfaces/visit";
+import type Visit from "~/interfaces/visit";
 import { UAParser } from "ua-parser-js";
 
 const { $io } = useNuxtApp();

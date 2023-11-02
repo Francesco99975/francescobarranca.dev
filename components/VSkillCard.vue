@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import Skill from "interfaces/skill";
+import type Skill from "~/interfaces/skill";
 
 const props = defineProps<{
   platform: string;
