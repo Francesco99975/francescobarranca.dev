@@ -22,6 +22,7 @@ import PDFMerger from "pdf-merger-js";
 
 export default defineEventHandler(async (event) => {
   try {
+    const config = useRuntimeConfig();
     const data = await readBody<{
       id: string;
       price?: number;
@@ -30,7 +31,7 @@ export default defineEventHandler(async (event) => {
     }>(event);
 
     let commission;
-    const client = new ServerClient(process.env.POSTMARK_API_KEY!);
+    const client = new ServerClient(config.POSTMARK_API_KEY!);
 
     if (data.price) {
       commission = await prisma.commission.update({
@@ -62,7 +63,9 @@ export default defineEventHandler(async (event) => {
         commission.description,
         commission.theme,
         commission.pwa,
-        commission.environment
+        commission.environment,
+        config.DEV_NAME,
+        config.DEV_ADDRESS
       );
 
       client
@@ -187,7 +190,9 @@ async function generateContract(
   comm_desc: string,
   comm_theme: string,
   comm_pwa: boolean,
-  comm_type: string
+  comm_type: string,
+  devName: string,
+  devAddress: string
 ): Promise<string> {
   try {
     const BASE_PATH = "server/templates_pdf";
@@ -247,8 +252,8 @@ async function generateContract(
       currency: "CAD",
     });
     const contract_1 = contract_template_1({
-      dev_name: process.env.DEV_NAME || "DEV",
-      dev_address: process.env.DEV_ADDRESS || "DEV ADRRS",
+      dev_name: devName || "DEV",
+      dev_address: devAddress || "DEV ADRRS",
       client_name: clientFullName,
       client_address: clientAddress,
       purchase_price: numberFormatter.format(price),
