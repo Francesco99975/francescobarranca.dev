@@ -6,11 +6,16 @@ const visitors: Visit[] = [];
 
 export default defineNitroPlugin((nitroApp) => {
   const socketServer = new Server(useRuntimeConfig().public.socketPort, {
-    serveClient: false,
+    serveClient: process.env.NODE_ENV === "production",
     cors: {
-      origin: "*",
+      origin:
+        process.env.NODE_ENV === "production"
+          ? "https://francescobarranca.dev"
+          : "*",
     },
   });
+
+  console.log("IO Server Instatiated");
 
   socketServer.on("connection", (socket) => {
     socket.on("join", async () => {

@@ -170,8 +170,8 @@
 </template>
 
 <script setup lang="ts">
-import { Status } from "@prisma/client";
 import type Commission from "~/interfaces/commission";
+type Status = "SUBMITTED" | "PENDING" | "ACCEPTED" | "INVOICING" | "COMPLETED";
 
 definePageMeta({
   layout: "admin",
@@ -229,7 +229,7 @@ const handleCancel = () => {
 
 const handleChange = async (id: string, status: Status) => {
   try {
-    if (status !== Status.PENDING) {
+    if (status !== "PENDING") {
       const updatedData = await $fetch<{
         commission: Commission;
         customerEmail: string;
@@ -279,27 +279,27 @@ const handleReject = async (id: string) => {
 
 const inReview = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
-  return data.value.filter((x) => x.commission.status === Status.SUBMITTED);
+  return data.value.filter((x) => x.commission.status === "SUBMITTED");
 });
 
 const contracting = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
-  return data.value.filter((x) => x.commission.status === Status.PENDING);
+  return data.value.filter((x) => x.commission.status === "PENDING");
 });
 
 const inProgress = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
-  return data.value.filter((x) => x.commission.status === Status.ACCEPTED);
+  return data.value.filter((x) => x.commission.status === "ACCEPTED");
 });
 
 const invoicing = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
-  return data.value.filter((x) => x.commission.status === Status.INVOICING);
+  return data.value.filter((x) => x.commission.status === "INVOICING");
 });
 
 const completed = computed(() => {
   if (!data.value || data.value.length <= 0) return [];
-  return data.value.filter((x) => x.commission.status === Status.COMPLETED);
+  return data.value.filter((x) => x.commission.status === "COMPLETED");
 });
 </script>
 

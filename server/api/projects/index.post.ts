@@ -6,7 +6,10 @@ import axios from "axios";
 import * as fs from "fs/promises";
 
 // Thumbor server URL
-const thumborServerUrl = "http://localhost:8888";
+const thumborServerUrl =
+  process.env.NODE_ENV === "production"
+    ? "http://devmedia"
+    : "http://localhost:8888";
 
 // Endpoint for uploading images to Thumbor
 const uploadEndpoint = `${thumborServerUrl}/image`;

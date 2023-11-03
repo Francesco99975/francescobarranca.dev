@@ -1,0 +1,68 @@
+version: "3.7"
+services:
+  dev:
+    image: fmb
+    depends_on:
+      - postgres
+    container_name: dev
+    restart: unless-stopped
+    labels:
+      - traefik.http.routers.dev.rule=Host(`francescobarranca.dev`)
+      - traefik.http.routers.dev.tls=true
+      - traefik.http.routers.dev.tls.certresolver=le
+      - traefik.port=80
+    networks:
+      - proxy
+      - devnet
+    ports:
+      - "8080:8080"
+      - "3001:3001"
+  devdb:
+    image: postgres:15.3-alpine
+    container_name: devdb
+    restart: unless-stopped
+    env_file:
+      - db.env
+    labels:
+      - traefik.enable=false
+    networks:
+      - devnet
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - pgconf:/etc/postgresql
+      - pglog:/var/log/postgresql
+  devmedia:
+    depends_on:
+      - postgres
+    image: minimalcompact/thumbor:6.7.5
+    restart: unless-stopped
+    labels:
+      - traefik.enable=false
+    networks:
+      - devnet
+    container_name: devmedia
+    ports:
+      - "8888:80"
+    environment:
+      - UPLOAD_ENABLED=True
+    volumes:
+      - thumbdev:/thumbor/images
+
+networks:
+  proxy:
+    external: true
+  devnet:
+    driver: bridge
+    external: false
+
+volumes:
+  thumbdev:
+    driver: local
+  pgdata:
+    driver: local
+  pgconf:
+    driver: local
+  pglog:
+    driver: local

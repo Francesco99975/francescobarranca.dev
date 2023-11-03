@@ -22,7 +22,10 @@ if (process.env.NODE_ENV === "production") {
 
 function getClient() {
   const config = useRuntimeConfig();
-  const { DATABASE_URL } = config;
+  const DATABASE_URL =
+    process.env.NODE_ENV === "production"
+      ? config.DATABASE_URL
+      : config.DATABASE_URL_DEV;
   invariant(typeof DATABASE_URL === "string", "DATABASE_URL env var not set");
 
   const databaseUrl = new URL(DATABASE_URL);
@@ -57,6 +60,7 @@ function getClient() {
       },
     },
   });
+  console.log("DB Server Instatiated");
   // connect eagerly
   client.$connect();
 

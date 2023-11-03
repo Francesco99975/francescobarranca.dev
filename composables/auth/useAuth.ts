@@ -1,4 +1,4 @@
-import Admin from "interfaces/admin";
+import type Admin from "~/interfaces/admin";
 import { useAuthUser } from "./useAuthUser";
 
 export const useAuth = () => {

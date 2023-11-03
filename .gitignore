@@ -20,6 +20,8 @@ logs
 postgres
 thumbor
 *.pdf
+*.tar
+*.tar.gz
 
 # Local env files
 *.env

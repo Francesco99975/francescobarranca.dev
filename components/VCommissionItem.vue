@@ -28,23 +28,23 @@
 
     <div class="flex md:m-2 py-2 w-full md:w-1/3 md:justify-center">
       <button
-        v-if="status === Status.SUBMITTED"
-        @click="() => handleChange(Status.PENDING)"
+        v-if="status === 'SUBMITTED'"
+        @click="() => handleChange('PENDING')"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
       >
         ACCEPT
       </button>
       <button
-        v-if="status === Status.PENDING"
-        @click="() => handleChange(Status.ACCEPTED)"
+        v-if="status === 'PENDING'"
+        @click="() => handleChange('ACCEPTED')"
         type="button"
         class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:border-accent hover:text-accent tracking-widest font-bold shadow-lg"
       >
         START PROJECT
       </button>
       <button
-        v-if="status === Status.SUBMITTED || status === Status.PENDING"
+        v-if="status === 'SUBMITTED' || status === 'PENDING'"
         @click="handleReject"
         type="button"
         class="w-full mx-2 bg-std border-2 border-error rounded-xl text-error hover:bg-error hover:text-white tracking-widest font-bold shadow-lg"
@@ -53,8 +53,8 @@
       </button>
 
       <button
-        v-if="status === Status.ACCEPTED"
-        @click="() => handleChange(Status.INVOICING)"
+        v-if="status === 'ACCEPTED'"
+        @click="() => handleChange('INVOICING')"
         type="button"
         class="w-full mx-2 bg-std border-2 border-primary rounded-xl text-primary hover:border-accent hover:text-accent tracking-widest font-bold shadow-lg"
       >
@@ -62,8 +62,8 @@
       </button>
 
       <button
-        v-if="status === Status.INVOICING"
-        @click="() => handleChange(Status.COMPLETED)"
+        v-if="status === 'INVOICING'"
+        @click="() => handleChange('COMPLETED')"
         type="button"
         class="w-full mx-2 bg-std border-2 border-success rounded-xl text-success hover:bg-success hover:text-white tracking-widest font-bold shadow-lg"
       >
@@ -71,7 +71,7 @@
       </button>
 
       <div
-        v-if="status === Status.COMPLETED"
+        v-if="status === 'COMPLETED'"
         class="w-full flex justify-center items-center mx-2 bg-std border-2 border-success rounded-xl text-success tracking-widest font-bold shadow-lg"
       >
         COMPLETED
@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { Status } from "@prisma/client";
+type Status = "SUBMITTED" | "PENDING" | "ACCEPTED" | "INVOICING" | "COMPLETED";
 
 const props = defineProps<{
   id: string;

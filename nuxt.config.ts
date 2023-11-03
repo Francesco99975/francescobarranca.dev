@@ -57,8 +57,11 @@ export default defineNuxtConfig({
     DEV_NAME: process.env.DEV_NAME,
     DEV_ADDRESS: process.env.DEV_ADDRESS,
     public: {
-      socketPort: 3001,
-      url: "http://0.0.0.0",
+      socketPort: 9000,
+      url:
+        process.env.NODE_ENV === "production"
+          ? "https://francescobarranca.dev"
+          : "http://localhost:9000",
     },
   },
 });

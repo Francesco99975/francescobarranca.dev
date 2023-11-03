@@ -27,11 +27,11 @@ export function unsign(value: string, secret: string) {
 export async function getUserFromSession(event: H3Event) {
   const config = useRuntimeConfig();
 
-  const cookie = getCookie(event, config.cookieName);
+  const cookie = getCookie(event, config.COOKIE_NAME);
 
   if (!cookie) return null;
 
-  const unsignedSession = unsign(cookie, config.cookieSecret);
+  const unsignedSession = unsign(cookie, config.COOKIE_SECRET);
 
   if (!unsignedSession) return null;
 
@@ -40,7 +40,8 @@ export async function getUserFromSession(event: H3Event) {
   const result = await getUserById(session.userId);
 
   if (result.isError()) {
-    return null;
+    console.log(result.error);
+    throw new Error(result.error.message);
   }
 
   return result.value;

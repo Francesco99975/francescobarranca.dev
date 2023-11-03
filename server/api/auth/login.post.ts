@@ -47,16 +47,16 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
 
   const session = serialize({ userId: userWithPassword.id });
-  const signedSession = sign(session, config.cookieSecret);
+  const signedSession = sign(session, config.COOKIE_SECRET);
 
-  setCookie(event, config.cookieName, signedSession, {
+  setCookie(event, config.COOKIE_NAME, signedSession, {
     httpOnly: true,
     path: "/",
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
     expires: rememberMe
-      ? new Date(Date.now() + config.cookieRememberMeExpires)
-      : new Date(Date.now() + config.cookieExpires),
+      ? new Date(Date.now() + +config.COOKIE_REMEMBER_ME_EXPIRES)
+      : new Date(Date.now() + +config.COOKIE_EXPIRES),
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

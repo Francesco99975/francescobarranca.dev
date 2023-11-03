@@ -3,9 +3,9 @@ import io from "socket.io-client";
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig().public;
 
-  const socket = io(`${config.url}:${config.socketPort}`, {
+  const socket = io(`${config.url}`, {
     autoConnect: false,
-    secure: false,
+    secure: process.env.NODE_ENV === "production",
   });
 
   nuxtApp.hook("app:beforeMount", () => {

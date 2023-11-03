@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { Status } from "@prisma/client";
+type Status = "SUBMITTED" | "PENDING" | "ACCEPTED" | "INVOICING" | "COMPLETED";
 import type Commission from "~/interfaces/commission";
 
 const props = defineProps<{
