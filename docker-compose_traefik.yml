@@ -3,20 +3,29 @@ services:
   dev:
     image: fmb
     depends_on:
-      - postgres
+      - devdb
     container_name: dev
     restart: unless-stopped
     labels:
       - traefik.http.routers.dev.rule=Host(`francescobarranca.dev`)
       - traefik.http.routers.dev.tls=true
+      - traefik.http.routers.dev.entrypoints=web,websecure
+      - traefik.http.routers.dev.service=dev
+      - traefik.http.services.dev.loadbalancer.server.port=8080
       - traefik.http.routers.dev.tls.certresolver=le
+      - traefik.http.routers.devio.rule=Host(`francescobarranca.dev`) && PathPrefix(`/socket.io/`)
+      - traefik.http.routers.devio.entrypoints=web,websecure
+      - traefik.http.routers.devio.service=devio
+      - traefik.http.services.devio.loadbalancer.server.port=9000
+      - traefik.http.routers.devio.tls=true
+      - traefik.http.routers.devio.tls.certresolver=le
       - traefik.port=80
     networks:
       - proxy
       - devnet
     ports:
       - "8080:8080"
-      - "3001:3001"
+      - "9000:9000"
   devdb:
     image: postgres:15.3-alpine
     container_name: devdb
@@ -35,18 +44,28 @@ services:
       - pglog:/var/log/postgresql
   devmedia:
     depends_on:
-      - postgres
+      - dev
     image: minimalcompact/thumbor:6.7.5
     restart: unless-stopped
     labels:
-      - traefik.enable=false
+      - traefik.http.routers.devmedia.rule=Host(`francescobarranca.dev`) && PathPrefix(`/media/`)
+      - traefik.http.routers.devmedia.entrypoints=web,websecure
+      - traefik.http.routers.devmedia.service=devmedia
+      - traefik.http.services.devmedia.loadbalancer.server.port=8888
+      - traefik.http.services.devmedia.loadbalancer.passhostheader=true
+      - traefik.http.routers.devmedia.tls=true
+      - traefik.http.routers.devmedia.tls.certresolver=le
+      - traefik.port=80
     networks:
       - devnet
+      - proxy
     container_name: devmedia
     ports:
       - "8888:80"
     environment:
       - UPLOAD_ENABLED=True
+      - CORS_ALLOW_ORIGIN=*
+      - AUTO_WEBP=True
     volumes:
       - thumbdev:/thumbor/images
 

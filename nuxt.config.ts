@@ -45,6 +45,7 @@ export default defineNuxtConfig({
   // },
   runtimeConfig: {
     DATABASE_URL: process.env.DATABASE_URL,
+    DATABASE_URL_DEV: process.env.DATABASE_URL_DEV,
     SESSION_SECRET: process.env.SESSION_SECRET,
     SEED_EMAIL: process.env.SEED_EMAIL,
     SEED_USERNAME: process.env.SEED_USERNAME,

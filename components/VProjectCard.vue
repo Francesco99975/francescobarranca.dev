@@ -20,7 +20,7 @@
         >
           <!--   sizes="xs:300px md:350px xl:250px xxl:200px 1500px" -->
           <NuxtImg
-            :src="BASE_IMG_URL + url"
+            :src="url"
             :alt="'PImg' + index"
             format="webp"
             fit="outside"
@@ -66,8 +66,6 @@
 
 <script setup lang="ts">
 import type Project from "~/interfaces/project";
-
-const BASE_IMG_URL = "http://localhost:8888";
 const slideDuration = 5000;
 
 const props = defineProps<{ project: Project }>();

@@ -1,14 +1,14 @@
 version: "3.7"
 services:
-  nuxt:
-    image: fmb
-    depends_on:
-      - postgres
-    container_name: dev
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-      - "3001:3001"
+  # nuxt:
+  #   image: fmb
+  #   depends_on:
+  #     - postgres
+  #   container_name: dev
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"
+  #     - "3001:3001"
   postgres:
     image: postgres:15.3-alpine
     container_name: devdb

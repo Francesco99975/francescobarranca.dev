@@ -22,6 +22,7 @@ thumbor
 *.pdf
 *.tar
 *.tar.gz
+server/templates_pdf/
 
 # Local env files
 *.env

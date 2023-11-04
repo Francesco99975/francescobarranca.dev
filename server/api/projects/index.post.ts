@@ -15,7 +15,7 @@ const thumborServerUrl =
 const uploadEndpoint = `${thumborServerUrl}/image`;
 
 // Function to upload a file to Thumbor
-const uploadFileToThumbor = async (fileData: FileJSON) => {
+const uploadFileToThumbor = async (fileData: FileJSON): Promise<string> => {
   try {
     const fileBuffer = await fs.readFile(fileData.filepath);
     // Make a POST request to the Thumbor upload endpoint
@@ -26,9 +26,16 @@ const uploadFileToThumbor = async (fileData: FileJSON) => {
     });
 
     // Handle the Thumbor response (e.g., you can console.log(response.headers.location))
-    return response.headers.location;
+    const loc = response.headers.location;
+    const url: string =
+      (uploadEndpoint.includes("dev")
+        ? "http://francescobarranca.dev/media/"
+        : "http://localhost:8888/") + loc.substring(loc.indexOf("image"));
+
+    return url;
   } catch (error) {
-    console.error("Error uploading file to Thumbor:", error);
+    console.error("Error uploading file to Thumbor", error);
+    throw createError("Error uploading file to Thumbor");
   }
 };
 
