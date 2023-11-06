@@ -8,7 +8,7 @@ import FormData from "form-data";
 
 const easypixServerUrl =
   process.env.NODE_ENV === "production"
-    ? "http://devmedia"
+    ? "https://media.francescobarranca.dev"
     : "http://localhost:8888";
 
 const uploadEndpoint = `${easypixServerUrl}/upload`;
@@ -27,10 +27,7 @@ const uploadFileToEasypix = async (fileData: FileJSON): Promise<string> => {
 
     // Handle the EasyPix response
     const loc = response.data.url;
-    const url: string =
-      (uploadEndpoint.includes("dev")
-        ? "http://francescobarranca.dev/media"
-        : "http://localhost:8888") + loc;
+    const url: string = easypixServerUrl + loc;
 
     return url;
   } catch (error) {
