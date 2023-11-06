@@ -36,7 +36,6 @@ export default defineEventHandler(async (event) => {
       id: commission.id,
       description: commission.description,
       environ: commission.environment,
-      pages: commission.pages,
       pwa: commission.pwa,
       subject: commission.subject,
       theme: commission.theme,
@@ -48,7 +47,11 @@ export default defineEventHandler(async (event) => {
     };
     return { commission: comm, customerEmail: commission.customer.email };
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while deleting commission",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

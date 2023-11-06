@@ -30,7 +30,11 @@ export default defineEventHandler(async (event) => {
 
     return skills;
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while fetching skills",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

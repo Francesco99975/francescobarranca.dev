@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
           subject: comm.subject,
           description: comm.description,
           theme: comm.description,
-          pages: comm.pages,
           environ: comm.environment,
           pwa: comm.pwa,
           status: comm.status,
@@ -31,7 +30,11 @@ export default defineEventHandler(async (event) => {
 
     return data;
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while fetching commissions",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

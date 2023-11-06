@@ -45,14 +45,13 @@ services:
   devmedia:
     depends_on:
       - dev
-    image: minimalcompact/thumbor:6.7.5
+    image: easypix
     restart: unless-stopped
     labels:
       - traefik.http.routers.devmedia.rule=Host(`francescobarranca.dev`) && PathPrefix(`/media/`)
       - traefik.http.routers.devmedia.entrypoints=web,websecure
       - traefik.http.routers.devmedia.service=devmedia
       - traefik.http.services.devmedia.loadbalancer.server.port=8888
-      - traefik.http.services.devmedia.loadbalancer.passhostheader=true
       - traefik.http.routers.devmedia.tls=true
       - traefik.http.routers.devmedia.tls.certresolver=le
       - traefik.port=80
@@ -61,13 +60,9 @@ services:
       - proxy
     container_name: devmedia
     ports:
-      - "8888:80"
-    environment:
-      - UPLOAD_ENABLED=True
-      - CORS_ALLOW_ORIGIN=*
-      - AUTO_WEBP=True
+      - "8888:8888"
     volumes:
-      - thumbdev:/thumbor/images
+      - pixdev:/go/bin/uploads
 
 networks:
   proxy:
@@ -77,7 +72,7 @@ networks:
     external: false
 
 volumes:
-  thumbdev:
+  pixdev:
     driver: local
   pgdata:
     driver: local

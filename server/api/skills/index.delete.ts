@@ -7,7 +7,11 @@ export default defineEventHandler(async (event) => {
     const skill = await prisma.skill.delete({ where: { id: data.id } });
     return { skill };
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while deleting skill",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

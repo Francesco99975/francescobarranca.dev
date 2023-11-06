@@ -56,7 +56,11 @@ export default defineEventHandler(async (event) => {
 
     return "success";
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while adding commission",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

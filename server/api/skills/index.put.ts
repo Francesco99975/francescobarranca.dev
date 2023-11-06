@@ -21,7 +21,11 @@ export default defineEventHandler(async (event) => {
     });
     return { skill };
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while updating skill",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

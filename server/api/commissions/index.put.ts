@@ -174,7 +174,11 @@ export default defineEventHandler(async (event) => {
     };
     return { commission: comm, customerEmail: commission.customer.email };
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while updating commission",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }
@@ -314,7 +318,10 @@ async function generateContract(
 
     return contract_path;
   } catch (error) {
-    console.log(error);
-    return "";
+    throw createError({
+      statusCode: 500,
+      message: "Error while creating contract",
+      cause: error,
+    });
   }
 }

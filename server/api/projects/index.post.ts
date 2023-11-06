@@ -3,39 +3,39 @@ import Project from "../../../interfaces/project";
 import { prisma } from "../../db.server";
 import { FileJSON, formidable } from "formidable";
 import axios from "axios";
-import * as fs from "fs/promises";
+import * as fsl from "fs";
+import FormData from "form-data";
 
-// Thumbor server URL
-const thumborServerUrl =
+const easypixServerUrl =
   process.env.NODE_ENV === "production"
     ? "http://devmedia"
     : "http://localhost:8888";
 
-// Endpoint for uploading images to Thumbor
-const uploadEndpoint = `${thumborServerUrl}/image`;
+const uploadEndpoint = `${easypixServerUrl}/upload`;
 
-// Function to upload a file to Thumbor
-const uploadFileToThumbor = async (fileData: FileJSON): Promise<string> => {
+const uploadFileToEasypix = async (fileData: FileJSON): Promise<string> => {
   try {
-    const fileBuffer = await fs.readFile(fileData.filepath);
-    // Make a POST request to the Thumbor upload endpoint
-    const response = await axios.post(uploadEndpoint, fileBuffer, {
-      headers: {
-        "Content-Type": fileData.mimetype, // Change content type as needed
-      },
-    });
+    const formData = new FormData();
 
-    // Handle the Thumbor response (e.g., you can console.log(response.headers.location))
-    const loc = response.headers.location;
+    const fileStream = fsl.createReadStream(fileData.filepath);
+    formData.append("file", fileStream);
+    // Make a POST request to the EasyPix upload endpoint
+    const response = await axios.post<{ url: string }>(
+      uploadEndpoint,
+      formData
+    );
+
+    // Handle the EasyPix response
+    const loc = response.data.url;
     const url: string =
       (uploadEndpoint.includes("dev")
-        ? "http://francescobarranca.dev/media/"
-        : "http://localhost:8888/") + loc.substring(loc.indexOf("image"));
+        ? "http://francescobarranca.dev/media"
+        : "http://localhost:8888") + loc;
 
     return url;
   } catch (error) {
-    console.error("Error uploading file to Thumbor", error);
-    throw createError("Error uploading file to Thumbor");
+    console.error("Error uploading file to EasyPix", error);
+    throw createError("Error uploading file to EasyPix");
   }
 };
 
@@ -68,7 +68,7 @@ export default defineEventHandler(async (event) => {
     const imageUrls: string[] = [];
 
     for (const file of files) {
-      imageUrls.push(await uploadFileToThumbor(file));
+      imageUrls.push(await uploadFileToEasypix(file));
     }
 
     const project = await prisma.project.create({
@@ -97,7 +97,11 @@ export default defineEventHandler(async (event) => {
     });
     return { project };
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while creating project",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

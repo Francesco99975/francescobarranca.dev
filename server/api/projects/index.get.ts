@@ -30,7 +30,11 @@ export default defineEventHandler(async (event) => {
 
     return projects;
   } catch (error) {
-    console.log(error);
+    throw createError({
+      statusCode: 500,
+      message: "Error while fetching projects",
+      cause: error,
+    });
   } finally {
     prisma.$disconnect();
   }

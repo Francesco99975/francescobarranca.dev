@@ -19,15 +19,13 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres:/var/lib/postgresql/data
-  thumbor:
+  devmedia:
     depends_on:
       - postgres
-    image: minimalcompact/thumbor:6.7.5
+    image: easypix
     restart: unless-stopped
-    container_name: devimg
+    container_name: devmedia
     ports:
-      - "8888:80"
-    environment:
-      - UPLOAD_ENABLED=True
+      - "8888:8888"
     volumes:
-      - ./thumbor:/thumbor/images
+      - ./thumbor:/go/bin/uploads
