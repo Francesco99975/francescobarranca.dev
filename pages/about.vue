@@ -5,7 +5,7 @@
     </h1>
 
     <p
-      class="m-6 text-md md:text-lg text-center text-primary italic border-x-2 p-2 rounded border-accent w-3/4"
+      class="m-6 text-md md:text-lg text-center text-primary italic border-x-2 p-2 rounded border-accent w-full md:w-3/4"
     >
       I'm Francesco, a passionate and experienced software developer
       specializing in creating robust and innovative solutions.I have honed my

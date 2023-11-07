@@ -6,7 +6,10 @@
       <h1 class="text-xl md:text-2xl text-primary my-5 font-bold">
         Manage Projects
       </h1>
-      <p v-if="form.error" class="my-3 text-std bg-error rounded shadow-md p-2">
+      <p
+        v-if="form.error"
+        class="my-3 text-white bg-error rounded shadow-md p-2"
+      >
         {{ form.error }}
       </p>
 
@@ -66,7 +69,9 @@
         />
 
         <div class="self-start my-5 flex flex-col">
-          <label class="italic mb-2" for="image">Upload Reference Images</label>
+          <label class="italic mb-2" for="images"
+            >Upload Reference Images</label
+          >
           <input
             type="file"
             accept="image/*"
@@ -287,7 +292,7 @@ const handleSubmit = async () => {
     projects.value!.push(data.project);
   } catch (error: any) {
     console.log(error);
-    // if (error.data.message) form.error = error.data.message;
+    if (error.data.message) form.error = error.data.message;
   } finally {
     form.pending = false;
   }

@@ -13,12 +13,70 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "nuxt-headlessui",
     "@nuxt/image",
+    "@nuxtjs/robots",
     "nuxt-snackbar",
     "nuxt-jsonld",
     "nuxt-simple-sitemap",
-
-    // "@nuxtjs/web-vitals",
+    "nuxt-security",
   ],
+  security: {
+    xssValidator: false,
+    headers: {
+      crossOriginEmbedderPolicy:
+        process.env.NODE_ENV === "production" ? "require-corp" : "unsafe-none",
+
+      contentSecurityPolicy: {
+        "img-src": [
+          "'self'",
+          process.env.NODE_ENV === "production"
+            ? "https://media.francescobarranca.dev"
+            : "http://localhost:8888",
+          "https://www.paypalobjects.com",
+          "https://www.paypal.com",
+        ],
+
+        "form-action": ["'self'", "https://www.paypal.com/donate"],
+      },
+    },
+    rateLimiter: {
+      tokensPerInterval: 100,
+      interval: 250000,
+    },
+    requestSizeLimiter: {
+      maxUploadFileRequestInBytes: 50000000,
+      maxRequestSizeInBytes: 50000000,
+    },
+  },
+  routeRules: {
+    "/api/commissions": {
+      security: {
+        rateLimiter: {
+          tokensPerInterval: 3,
+          interval: "month",
+        },
+      },
+    },
+    "/admin/projects": {
+      security: {
+        xssValidator: false,
+      },
+    },
+  },
+  sitemap: {
+    exclude: ["/admin", "/admin/*", "/api/*", "/commissions/confirmation"],
+    enabled: true,
+  },
+  robots: {
+    rules: {
+      UserAgent: "*",
+      Disallow: "/",
+      BlankLine: true,
+      Sitemap:
+        process.env.NODE_ENV === "production"
+          ? "https://francescobarranca.dev/sitemap.xml"
+          : "http://localhost:3000/sitemap.xml",
+    },
+  },
   ignore: ["postgres"],
   image: {
     screen: {},
@@ -38,11 +96,6 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  // webVitals: {
-  //   // provider: "api",
-  //   api: { url: "/api/vitals" },
-  //   debug: true, // debug enable metrics reporting on dev environments
-  // },
   runtimeConfig: {
     DATABASE_URL: process.env.DATABASE_URL,
     DATABASE_URL_DEV: process.env.DATABASE_URL_DEV,
