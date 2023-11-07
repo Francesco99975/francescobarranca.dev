@@ -297,6 +297,9 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  link: [{ rel: "canonical", href: "https://francescobarranca.dev/terms" }],
+});
 useSeoMeta({
   title: "Terms & Conditions| FMB.DEV",
   ogTitle: "Terms & Conditions| FMB.DEV",

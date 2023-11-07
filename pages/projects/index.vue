@@ -32,6 +32,10 @@
 <script setup lang="ts">
 import type Project from "~/interfaces/project";
 
+useHead({
+  link: [{ rel: "canonical", href: "https://francescobarranca.dev/projects" }],
+});
+
 useSeoMeta({
   title: "Projects | FMB.DEV",
   description:

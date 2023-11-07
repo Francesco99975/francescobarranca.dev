@@ -34,6 +34,10 @@
 <script setup lang="ts">
 import type Skill from "~/interfaces/skill";
 
+useHead({
+  link: [{ rel: "canonical", href: "https://francescobarranca.dev/skills" }],
+});
+
 useSeoMeta({
   title: "Skills | FMB.DEV",
   description:

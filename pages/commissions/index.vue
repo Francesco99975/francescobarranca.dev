@@ -25,7 +25,7 @@
           @update:value="(val: string) => form.data.theme = val"
         />
 
-        <h3 class="text-primary text-lg italic">Choose platforms needed</h3>
+        <h2 class="text-primary text-lg italic">Choose platforms needed</h2>
 
         <VRadioCommission
           v-if="environs && environs.length > 0"
@@ -195,6 +195,12 @@
 <script setup lang="ts">
 import type Commission from "~/interfaces/commission";
 import type { Customer } from "~/interfaces/customer";
+
+useHead({
+  link: [
+    { rel: "canonical", href: "https://francescobarranca.dev/commissions" },
+  ],
+});
 
 useSeoMeta({
   title: "Send a Commission | FMB.DEV",

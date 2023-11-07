@@ -11,11 +11,11 @@
         <h1 class="text-primary text-center text-3xl md:text-4xl lg:text-6xl">
           Francesco M. Barranca
         </h1>
-        <h3
+        <h2
           class="text-accent text-center my-2 p-2 text-xl rounded md:text-3xl"
         >
           Software Developer
-        </h3>
+        </h2>
 
         <ul class="flex flex-row justify-center">
           <li>
@@ -25,9 +25,18 @@
               </ClientOnly>
             </a>
           </li>
-          <!-- <li>
-          <a href=""></a>
-        </li> -->
+
+          <li>
+            <a href="mailto:kalairendev@francescobarranca.dev">
+              <ClientOnly>
+                <Icon
+                  name="material-symbols:alternate-email"
+                  class="text-primary"
+                  size="3rem"
+                />
+              </ClientOnly>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -75,6 +84,10 @@
 
 <script setup lang="ts">
 import type Project from "~/interfaces/project";
+
+useHead({
+  link: [{ rel: "canonical", href: "https://francescobarranca.dev" }],
+});
 
 useSeoMeta({
   title: "FMB.DEV",

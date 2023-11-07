@@ -55,6 +55,9 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  link: [{ rel: "canonical", href: "https://francescobarranca.dev/about" }],
+});
 useSeoMeta({
   title: "About | FMB.DEV",
   ogTitle: "About | FMB.DEV",

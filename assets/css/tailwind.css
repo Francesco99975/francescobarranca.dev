@@ -5,16 +5,19 @@
 @font-face {
   font-family: "YukiCode";
   src: url("../fonts/YukiCode-Regular.otf");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "CaffeineMono";
   src: url("../fonts/CaffeineMono.otf");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Kreadon";
   src: url("../fonts/KreadonVF.ttf");
+  font-display: swap;
 }
 
 @layer base {

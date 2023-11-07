@@ -225,6 +225,9 @@
 </template>
 
 <script setup lang="ts">
+useHead({
+  link: [{ rel: "canonical", href: "https://francescobarranca.dev/privacy" }],
+});
 useSeoMeta({
   title: "Privacy Policy | FMB.DEV",
   ogTitle: "Privacy Policy | FMB.DEV",

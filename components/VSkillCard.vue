@@ -8,7 +8,7 @@
 
     <div class="w-full overflow-scroll" v-if="props.subplatforms.length > 0">
       <div class="w-full" v-for="subplatform in props.subplatforms">
-        <h3 class="text-center">{{ subplatform }}</h3>
+        <h2 class="text-center">{{ subplatform }}</h2>
         <div
           v-for="(skill, i) in props.skills.filter(
             (sk) => sk.subplatform === subplatform

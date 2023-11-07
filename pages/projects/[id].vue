@@ -79,6 +79,16 @@
 import type Project from "~/interfaces/project";
 
 const route = useRoute();
+
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: `https://francescobarranca.dev/projects/${route.params.id}`,
+    },
+  ],
+});
+
 const { pending, data: project } = await useFetch<Project>(
   `/api/projects/${route.params.id}`,
   {

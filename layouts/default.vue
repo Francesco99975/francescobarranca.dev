@@ -106,7 +106,6 @@ useHead({
       sizes: "16x16",
       href: "/favicon.ico",
     },
-    { rel: "canonical", href: "https://francescobarranca.dev" },
   ],
 });
 useSeoMeta({
