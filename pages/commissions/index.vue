@@ -224,7 +224,7 @@ const environs = ref<{ name: string; value: boolean }[]>([
   // { name: "Desktop App", value: false },
 ]);
 
-const chosenEnv = ref<string>("");
+const chosenEnv = ref<string>("CLI App");
 
 const pwa = ref<boolean>(false);
 
@@ -309,8 +309,12 @@ const handleSubmit = async (event: Event) => {
       path: "/commissions/confirmation",
       replace: true,
     });
-  } catch (error) {
+  } catch (error: any) {
     form.error = "Something Went wrong";
+    if (error.status && error.status === 429) {
+      form.error =
+        "Sorry cannot receive anymore submission for now. Try again another time.";
+    }
   } finally {
     form.data = {
       subject: "",
@@ -326,6 +330,8 @@ const handleSubmit = async (event: Event) => {
     form.optional = { customerMiddlename: "" };
     form.pending = false;
   }
+  pwa.value = false;
+  chosenEnv.value = "CLI APP";
 };
 </script>
 

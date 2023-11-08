@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
   try {
     const db_projects = await prisma.project.findMany({
       include: { skills: true, imageUrls: true },
+      orderBy: { createdAt: "desc" },
     });
 
     const projects: Project[] = db_projects.map((prj) => {

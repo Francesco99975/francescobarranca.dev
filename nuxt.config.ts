@@ -20,7 +20,6 @@ export default defineNuxtConfig({
     "nuxt-security",
   ],
   security: {
-    xssValidator: false,
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "production" ? "require-corp" : "unsafe-none",
@@ -47,18 +46,25 @@ export default defineNuxtConfig({
       maxRequestSizeInBytes: 50000000,
     },
   },
-  routeRules: {
-    "/api/commissions": {
-      security: {
-        rateLimiter: {
-          tokensPerInterval: 3,
-          interval: "month",
+  nitro: {
+    compressPublicAssets: {
+      brotli: true,
+    },
+    routeRules: {
+      "/api/projects": {
+        security: {
+          xssValidator: false,
         },
       },
-    },
-    "/admin/projects": {
-      security: {
-        xssValidator: false,
+      "/img/**": {
+        headers: {
+          "cache-control": `public,max-age=${31536000},s-maxage=${31536000}`,
+        },
+      },
+      "/_nuxt/**": {
+        headers: {
+          "cache-control": `public,max-age=${31536000},s-maxage=${31536000}`,
+        },
       },
     },
   },
