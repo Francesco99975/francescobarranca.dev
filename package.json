@@ -7,7 +7,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "build:prod": "docker buildx build . -t fmb && docker buildx prune && docker image prune && docker save fmb > fmb.tar"
+    "build:prod": "docker buildx build . -t fmb && docker buildx prune -af && docker image prune -af && docker save fmb > fmb.tar"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",

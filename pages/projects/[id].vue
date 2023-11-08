@@ -65,6 +65,7 @@
               fit="outside"
               quality="80"
               class="inline-block"
+              :nonce="nonce"
             />
           </div>
         </div>
@@ -79,6 +80,8 @@
 import type Project from "~/interfaces/project";
 
 const route = useRoute();
+
+const nonce = useNonce();
 
 useHead({
   link: [

@@ -26,6 +26,7 @@
             fit="outside"
             quality="80"
             class="inline-block"
+            :nonce="nonce"
           />
         </div>
       </div>
@@ -66,6 +67,8 @@
 
 <script setup lang="ts">
 import type Project from "~/interfaces/project";
+const nonce = useNonce();
+
 const slideDuration = 5000;
 
 const props = defineProps<{ project: Project }>();

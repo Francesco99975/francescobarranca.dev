@@ -20,9 +20,11 @@ export default defineNuxtConfig({
     "nuxt-security",
   ],
   security: {
+    nonce: true,
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "production" ? "require-corp" : "unsafe-none",
+      crossOriginResourcePolicy: "cross-origin",
 
       contentSecurityPolicy: {
         "img-src": [
@@ -35,6 +37,25 @@ export default defineNuxtConfig({
         ],
 
         "form-action": ["'self'", "https://www.paypal.com/donate"],
+        "style-src":
+          process.env.NODE_ENV === "production"
+            ? [
+                "'self'", // backwards compatibility for older browsers that don't support strict-dynamic
+                "'nonce-{{nonce}}'",
+              ]
+            : // In dev mode, we allow unsafe-inline so that hot reloading keeps working
+              ["'self'", "'unsafe-inline'"],
+        "script-src": [
+          "'self'", // fallback value for older browsers, automatically removed if `strict-dynamic` is supported.
+          "'nonce-{{nonce}}'",
+          "'strict-dynamic'",
+        ],
+
+        "script-src-attr": [
+          "'self'", // fallback value for older browsers, automatically removed if `strict-dynamic` is supported.
+          "'nonce-{{nonce}}'",
+          "'strict-dynamic'",
+        ],
       },
     },
     rateLimiter: {
