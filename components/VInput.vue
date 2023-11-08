@@ -9,13 +9,22 @@
       :min="type === 'number' && min"
       :max="type === 'number' && max"
       v-model="value"
+      :autocomplete="autocomplete"
       class="input text-accent border-accent pb-1"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps(["name", "label", "type", "min", "max", "value"]);
+const props = defineProps([
+  "name",
+  "label",
+  "type",
+  "autocomplete",
+  "min",
+  "max",
+  "value",
+]);
 
 const emit = defineEmits(["update:value"]);
 

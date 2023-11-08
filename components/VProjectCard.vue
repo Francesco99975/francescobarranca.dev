@@ -68,6 +68,7 @@
 <script setup lang="ts">
 import type Project from "~/interfaces/project";
 const nonce = useNonce();
+// const crossorigin = process.env.NODE_ENV === "production";
 
 const slideDuration = 5000;
 

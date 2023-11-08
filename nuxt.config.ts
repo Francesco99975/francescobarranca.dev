@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     "nuxt-headlessui",
     "@nuxt/image",
     "@nuxtjs/robots",
-    "nuxt-snackbar",
     "nuxt-jsonld",
     "nuxt-simple-sitemap",
     "nuxt-security",
@@ -24,20 +23,24 @@ export default defineNuxtConfig({
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "production" ? "require-corp" : "unsafe-none",
-      crossOriginResourcePolicy: "cross-origin",
-
       contentSecurityPolicy: {
         "img-src": [
           "'self'",
           process.env.NODE_ENV === "production"
             ? "https://media.francescobarranca.dev"
             : "http://localhost:8888",
-          "https://www.paypalobjects.com",
-          "https://www.paypal.com",
         ],
 
-        "form-action": ["'self'", "https://www.paypal.com/donate"],
+        "form-action": ["'self'"],
         "style-src":
+          process.env.NODE_ENV === "production"
+            ? [
+                "'self'", // backwards compatibility for older browsers that don't support strict-dynamic
+                "'nonce-{{nonce}}'",
+              ]
+            : // In dev mode, we allow unsafe-inline so that hot reloading keeps working
+              ["'self'", "'unsafe-inline'"],
+        "style-src-attr":
           process.env.NODE_ENV === "production"
             ? [
                 "'self'", // backwards compatibility for older browsers that don't support strict-dynamic
@@ -50,7 +53,6 @@ export default defineNuxtConfig({
           "'nonce-{{nonce}}'",
           "'strict-dynamic'",
         ],
-
         "script-src-attr": [
           "'self'", // fallback value for older browsers, automatically removed if `strict-dynamic` is supported.
           "'nonce-{{nonce}}'",
@@ -65,6 +67,13 @@ export default defineNuxtConfig({
     requestSizeLimiter: {
       maxUploadFileRequestInBytes: 50000000,
       maxRequestSizeInBytes: 50000000,
+    },
+  },
+  routeRules: {
+    "/about": {
+      headers: {
+        "Content-Security-Policy": "",
+      },
     },
   },
   nitro: {
@@ -107,11 +116,6 @@ export default defineNuxtConfig({
   ignore: ["postgres"],
   image: {
     screen: {},
-  },
-  snackbar: {
-    bottom: true,
-    right: true,
-    duration: 5000,
   },
   colorMode: {
     classSuffix: "",

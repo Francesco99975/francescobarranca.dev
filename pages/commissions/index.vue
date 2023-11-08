@@ -73,6 +73,7 @@
             name="email"
             label="Your Email Address"
             type="text"
+            autocomplete="email"
             :value="form.data.customerEmail"
             @update:value="(val: string) => form.data.customerEmail = val"
             class="w-full md:w-3/4"
@@ -108,6 +109,7 @@
           <VInput
             name="address"
             label="Your Address"
+            autocomplete="street-address"
             type="text"
             :value="form.data.customerAddress"
             @update:value="(val: string) => form.data.customerAddress = val"

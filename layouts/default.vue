@@ -91,7 +91,6 @@
 
     <div class="p-4">
       <slot />
-      <NuxtSnackbar />
     </div>
   </div>
 </template>

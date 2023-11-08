@@ -7,7 +7,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "build:prod": "docker buildx build . -t fmb && docker buildx prune -af && docker image prune -af && docker save fmb > fmb.tar"
+    "build:prod": "docker buildx build . -t fmb && yes | docker buildx prune && yes | docker image prune && docker save fmb > fmb.tar"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -43,7 +43,6 @@
     "handlebars": "^4.7.8",
     "limiter": "^2.1.0",
     "nuxt-jsonld": "^2.0.8",
-    "nuxt-snackbar": "^1.0.4",
     "pdf-merger-js": "^4.3.0",
     "pdfkit": "^0.13.0",
     "postmark": "^3.1.1",
