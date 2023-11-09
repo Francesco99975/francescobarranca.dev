@@ -20,6 +20,16 @@ export default defineNuxtConfig({
   ],
   security: {
     nonce: true,
+    // csrf: {
+    //   https: process.env.NODE_ENV === "production",
+    //   cookieKey: process.env.NODE_ENV === "production" ? "__Host-csrf" : "csrf",
+    //   cookie: {
+    //     path: "/",
+    //     httpOnly: true,
+    //     sameSite: "strict",
+    //   },
+    //   methodsToProtect: ["POST", "PUT", "PATCH"],
+    // },
     headers: {
       crossOriginEmbedderPolicy:
         process.env.NODE_ENV === "production" ? "require-corp" : "unsafe-none",
