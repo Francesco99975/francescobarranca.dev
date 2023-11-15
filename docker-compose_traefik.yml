@@ -16,6 +16,7 @@ services:
       - traefik.http.routers.devio.rule=Host(`francescobarranca.dev`) && PathPrefix(`/socket.io/`)
       - traefik.http.routers.devio.entrypoints=web,websecure
       - traefik.http.routers.devio.service=devio
+      - traefik.http.routers.devio.middlewares=forwardedheaders
       - traefik.http.services.devio.loadbalancer.server.port=9000
       - traefik.http.routers.devio.tls=true
       - traefik.http.routers.devio.tls.certresolver=le

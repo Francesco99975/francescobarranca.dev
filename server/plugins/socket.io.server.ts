@@ -29,16 +29,15 @@ export default defineNitroPlugin((nitroApp) => {
 
     socket.on("visit", (message: { agent: string; sauce: string }) => {
       let publicIP =
-        socket.request.socket.remoteFamily +
-        ":" +
+        socket.handshake.headers["x-forwarded-for"]?.toString() ||
         socket.request.socket.remoteAddress;
 
-      if (publicIP.includes("undefined")) {
+      if (!publicIP || publicIP.includes("undefined")) {
         publicIP = socket.handshake.address;
       }
       const visit: Visit = {
         id: socket.id,
-        ip: publicIP || socket.handshake.address,
+        ip: publicIP,
         date: new Date(),
         duration: 0,
         views: 0,
@@ -55,11 +54,10 @@ export default defineNitroPlugin((nitroApp) => {
 
     socket.on("view", () => {
       let publicIP =
-        socket.request.socket.remoteFamily +
-        ":" +
+        socket.handshake.headers["x-forwarded-for"]?.toString ||
         socket.request.socket.remoteAddress;
 
-      if (publicIP.includes("undefined")) {
+      if (!publicIP) {
         publicIP = socket.handshake.address;
       }
       const index = visitors.findIndex((visit) => visit.ip === publicIP);
