@@ -122,12 +122,14 @@
             >I Agree to the
             <NuxtLink
               to="/privacy"
+              target="_blank"
               class="italic hover:underline hover:text-accent underline-offset-4"
               >Privacy Policy</NuxtLink
             >
             and
             <NuxtLink
               to="/terms"
+              target="_blank"
               class="italic hover:underline hover:text-accent underline-offset-4"
               >Terms and Conditions</NuxtLink
             ></span

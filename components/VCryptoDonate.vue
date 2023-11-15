@@ -18,6 +18,7 @@
     />
 
     <span
+      :title="address"
       class="font-bold tracking-widest text-accent text-center max-w-[250px] truncate p-1 border-2 border-accent rounded cursor-pointer"
       >{{ address }}</span
     >

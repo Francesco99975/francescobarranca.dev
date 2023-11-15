@@ -67,19 +67,19 @@
           :class="showMenu ? 'flex' : 'hidden'"
           class="fixed top-0 right-0 z-50 flex-col bg-std p-4 rounded-sm shadow-lg mt-20 mr-2 space-y-4 md:hidden text-primary"
         >
-          <li class="link">
+          <li class="link" @click="showMenu = false">
             <NuxtLink to="/">Home</NuxtLink>
           </li>
-          <li class="link">
+          <li class="link" @click="showMenu = false">
             <NuxtLink to="/skills">Skills</NuxtLink>
           </li>
-          <li class="link">
+          <li class="link" @click="showMenu = false">
             <NuxtLink to="/projects">Projects</NuxtLink>
           </li>
-          <li class="link">
+          <li class="link" @click="showMenu = false">
             <NuxtLink to="/commissions">Commissions</NuxtLink>
           </li>
-          <li class="link">
+          <li class="link" @click="showMenu = false">
             <NuxtLink to="/about">About</NuxtLink>
           </li>
           <li>
@@ -89,7 +89,7 @@
       </nav>
     </header>
 
-    <div class="p-4">
+    <div class="p-4" @click="showMenu = false">
       <slot />
     </div>
   </div>

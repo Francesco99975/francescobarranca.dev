@@ -81,7 +81,7 @@
           <span class="font-bold">Visitors</span>
         </li>
         <li v-for="sauce in sauceData">
-          <span>{{ sauce.url }}</span>
+          <span :title="sauce.url">{{ sauce.url }}</span>
           <span>{{ sauce.visits }}</span>
         </li>
       </ul>
@@ -92,7 +92,7 @@
           <span class="font-bold">Visitors</span>
         </li>
         <li v-for="device in deviceData">
-          <span>{{ device.info }}</span>
+          <span :title="device.info">{{ device.info }}</span>
           <span>{{ device.visits }}</span>
         </li>
       </ul>
