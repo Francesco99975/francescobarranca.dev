@@ -5,15 +5,15 @@ export const COMM_RES = "comm_res";
 export const COMM_PRG = "comm_prg";
 export const COMM_CTR = "comm_ctr";
 export const REJECT_INSTRUCTIONS =
-  "Unfortunately we cannot fulfill your request at this time. I hope that you are willing to give us another chance in the future";
+  "Regrettably, we are unable to fulfill your request at this time. We sincerely hope that you would consider granting us another opportunity in the future.";
 export const ACCEPT_INSTRUCTIONS =
-  "You will shortly receive another email with a link, that you will need to follow to sign our contract agreement for this commission. Once the contract is signed by both parties you will receive emails on the progression of your commission. Thank you for choosing us.";
+  "Shortly, you will receive another email containing a link that you need to follow in order to sign our contract agreement for this commission. Once the contract is duly signed by both parties, you will receive subsequent emails updating you on the progress of your commission. We appreciate your choice in selecting our services. Thank you.";
 
 export const WORK_IN_PROGRESS_NOTIF =
   "Just wait a few weeks, more or less, for us to work on your commission. You will receive more updates as we progress through the work.";
 
 export const INVOICING_INSTRUCTIONS =
-  "You will shortly receive another email with a link, that you will need to follow to pay for you commission and subscription for hosting and/or mantainace, if requested. Thank you for choosing us.";
+  "Shortly, you will receive another email containing a link that you will need to follow to complete the payment for your commission and, if applicable, the subscription for hosting and/or maintenance. We appreciate your choice in selecting our services. Thank you.";
 
 export const COMPLETED_INSTRUCTIONS =
-  "Your commission is finally ready. Thank you for choosing us.";
+  "Your commission is now ready. We sincerely appreciate your choice in selecting our services. Thank you.";
