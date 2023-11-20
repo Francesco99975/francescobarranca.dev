@@ -72,7 +72,7 @@
           <VInput
             name="email"
             label="Your Email Address"
-            type="text"
+            type="email"
             autocomplete="email"
             :value="form.data.customerEmail"
             @update:value="(val: string) => form.data.customerEmail = val"
@@ -109,7 +109,7 @@
           <VInput
             name="address"
             label="Your Address"
-            autocomplete="street-address"
+            placeholder="123 Maple Ave, Townsville, M1B 2P3, Provinceville, Canada"
             type="text"
             :value="form.data.customerAddress"
             @update:value="(val: string) => form.data.customerAddress = val"
@@ -228,6 +228,9 @@ const environs = ref<{ name: string; value: boolean }[]>([
   // { name: "Desktop App", value: false },
 ]);
 
+const addressRegex =
+  /^(?=.*\b\d)(?=.*\b\w)(?=.*\b\w+\s+\w+)(?=.*\b\w+)(?=.*\b\w+\s*\d+)(?=.*(\b\d{5}\b|\b[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}\b))(?=.*\b\w+\s*\d+\s*\w*\s*\d*\s*\d*)[\s\S]{3,}$/;
+
 const chosenEnv = ref<string>("CLI App");
 
 const pwa = ref<boolean>(false);
@@ -284,6 +287,11 @@ const handleSubmit = async (event: Event) => {
       return;
     }
 
+    if (!form.data.customerAddress.match(addressRegex)) {
+      form.error = "Wrong address format. Try again...";
+      return;
+    }
+
     const commission: Commission = {
       subject: form.data.subject,
       description: form.data.description,
@@ -309,6 +317,8 @@ const handleSubmit = async (event: Event) => {
       },
     });
 
+    resetForm();
+
     navigateTo({
       path: "/commissions/confirmation",
       replace: true,
@@ -320,20 +330,23 @@ const handleSubmit = async (event: Event) => {
         "Sorry cannot receive anymore submission for now. Try again another time.";
     }
   } finally {
-    form.data = {
-      subject: "",
-      description: "",
-      theme: "",
-
-      customerEmail: "",
-      customerAddress: "",
-      customerFirstname: "",
-      customerLastname: "",
-      privacyPolicyAgreed: false,
-    };
-    form.optional = { customerMiddlename: "" };
     form.pending = false;
   }
+};
+
+const resetForm = () => {
+  form.data = {
+    subject: "",
+    description: "",
+    theme: "",
+
+    customerEmail: "",
+    customerAddress: "",
+    customerFirstname: "",
+    customerLastname: "",
+    privacyPolicyAgreed: false,
+  };
+  form.optional = { customerMiddlename: "" };
   pwa.value = false;
   chosenEnv.value = "CLI APP";
 };

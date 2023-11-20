@@ -9,7 +9,8 @@
       :min="type === 'number' && min"
       :max="type === 'number' && max"
       v-model="value"
-      :autocomplete="autocomplete"
+      :pattern="pattern"
+      :placeholder="placeholder"
       class="input text-accent border-accent pb-1"
     />
   </div>
@@ -20,7 +21,8 @@ const props = defineProps([
   "name",
   "label",
   "type",
-  "autocomplete",
+  "placeholder",
+  "pattern",
   "min",
   "max",
   "value",
