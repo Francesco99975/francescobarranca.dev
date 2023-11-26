@@ -209,8 +209,8 @@ const avgViewVisit = computed(() =>
 const bounceRate = computed(
   () =>
     `${Math.trunc(
-      visitors.value.length /
-        visitors.value.filter((visit) => visit.views === 0).length
+      visitors.value.filter((visit) => visit.views === 0).length /
+        visitors.value.length
     )}%`
 );
 
