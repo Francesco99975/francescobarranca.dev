@@ -206,13 +206,13 @@ const avgViewVisit = computed(() =>
   (pageviews.value / visitors.value.length).toFixed(2)
 );
 
-const bounceRate = computed(
-  () =>
-    `${Math.trunc(
-      visitors.value.filter((visit) => visit.views === 0).length /
-        visitors.value.length
-    )}%`
-);
+const bounceRate = computed(() => {
+  return `${Math.trunc(
+    (visitors.value.filter((visit) => visit.views == 0).length /
+      visitors.value.length) *
+      100
+  )}%`;
+});
 
 const avgDuration = computed(
   () =>
