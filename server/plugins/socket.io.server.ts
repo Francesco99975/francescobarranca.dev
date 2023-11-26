@@ -53,14 +53,7 @@ export default defineNitroPlugin((nitroApp) => {
     });
 
     socket.on("view", () => {
-      let publicIP =
-        socket.handshake.headers["x-forwarded-for"]?.toString ||
-        socket.request.socket.remoteAddress;
-
-      if (!publicIP) {
-        publicIP = socket.handshake.address;
-      }
-      const index = visitors.findIndex((visit) => visit.ip === publicIP);
+      const index = visitors.findIndex((visit) => visit.id === socket.id);
 
       if (index < 0) return;
       const visitor = visitors[index];
@@ -70,7 +63,7 @@ export default defineNitroPlugin((nitroApp) => {
       visitors[index] = visitor;
 
       console.log(
-        `Views updated for ${visitors[index].ip}. Views: ${visitors[index].views}`
+        `Views updated for ${visitors[index].id}. Views: ${visitors[index].views}`
       );
     });
 
