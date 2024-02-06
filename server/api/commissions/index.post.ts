@@ -19,6 +19,9 @@ export default defineEventHandler(async (event) => {
         message: "Agree to the privacy policy to submit commission",
       });
 
+    const middlename = data.customer.middlename || "";
+    delete data.customer.middlename;
+
     if (
       Object.values({ ...data.commission, ...data.customer })
         .filter((x) => typeof x === "string")
@@ -60,7 +63,7 @@ export default defineEventHandler(async (event) => {
           address: data.customer.address,
           firstname: data.customer.firstname,
           lastname: data.customer.lastname,
-          middlename: data.customer.middlename || undefined,
+          middlename,
           commissions: {
             create: {
               subject: data.commission.subject,
@@ -91,6 +94,7 @@ export default defineEventHandler(async (event) => {
 
     return "success";
   } catch (error) {
+    console.log(error);
     throw createError({
       statusCode: 500,
       message: "Error while adding commission",
