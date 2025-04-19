@@ -28,9 +28,9 @@
           <li class="link">
             <NuxtLink to="/projects">Projects</NuxtLink>
           </li>
-          <li class="link">
+          <!-- <li class="link">
             <NuxtLink to="/commissions">Commissions</NuxtLink>
-          </li>
+          </li> -->
           <li class="link">
             <NuxtLink to="/about">About</NuxtLink>
           </li>
@@ -76,9 +76,9 @@
           <li class="link" @click="showMenu = false">
             <NuxtLink to="/projects">Projects</NuxtLink>
           </li>
-          <li class="link" @click="showMenu = false">
+          <!-- <li class="link" @click="showMenu = false">
             <NuxtLink to="/commissions">Commissions</NuxtLink>
-          </li>
+          </li> -->
           <li class="link" @click="showMenu = false">
             <NuxtLink to="/about">About</NuxtLink>
           </li>
